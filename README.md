@@ -20,3 +20,12 @@ Libraries to install
 - antd (ant design)
 - tailwindcss
 - sass , sass-loader
+<!-- for animation -->
+- react-lottie
+<!-- Validate form -->
+- formik
+
+// link for movie api
+https://movienew.cybersoft.edu.vn/swagger/index.html
+
+// login page, detail page, dashboard admin

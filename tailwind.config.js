@@ -2,7 +2,12 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        // create your own class (h-70vh)
+        "70vh": "70vh",
+      },
+    },
   },
   plugins: [],
 };
