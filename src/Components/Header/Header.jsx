@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 const Header = () => {
   const { hoTen } = useSelector((state) => state.nguoiDung);
-  console.log(hoTen);
+  // console.log(hoTen);
   return (
     <nav className="bg-white dark:bg-gray-900  w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -20,12 +20,20 @@ const Header = () => {
         </a>
         <div className="flex md:order-2">
           <div>
-            <NavLink to={"/login"} className="text-white text-xl mr-4">
-              <i class="fa-solid fa-circle-user mr-2"></i>Đăng nhập
-            </NavLink>
-            <NavLink to={"/"} className="text-white text-xl">
-              <i class="fa-solid fa-circle-user mr-2"></i>Đăng ký
-            </NavLink>
+            {hoTen != null ? (
+              <p className="text-white">{hoTen.hoTen}</p>
+            ) : (
+              <div>
+                <NavLink to={"/login"} className="text-white text-xl mr-4">
+                  <i className="fa-solid fa-circle-user mr-2" />
+                  Đăng nhập
+                </NavLink>
+                <NavLink to={"/"} className="text-white text-xl">
+                  <i className="fa-solid fa-circle-user mr-2" />
+                  Đăng ký
+                </NavLink>
+              </div>
+            )}
           </div>
           <button
             data-collapse-toggle="navbar-sticky"

@@ -10,6 +10,6 @@ export const layDuLieuLocal = (ten) => {
   if (JSON.parse(value)) {
     return JSON.parse(value);
   } else {
-    return {};
+    return null;
   }
 };
