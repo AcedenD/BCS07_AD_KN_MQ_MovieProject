@@ -50,9 +50,9 @@ export const nguoiDungSlice = createSlice({
       ];
     });
 
-    builder.addCase(getAllUser.pending, (state, action) => {
-      console.log("hello");
-    });
+    // builder.addCase(getAllUser.pending, (state, action) => {
+    //   console.log("hello");
+    // });
   },
 });
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme } from "antd";
 import { NavLink, Outlet } from "react-router-dom";
+import { layDuLieuLocal } from "../utils/localStore";
 const { Header, Sider, Content } = Layout;
 
 const AdminTemplate = () => {
@@ -15,6 +16,19 @@ const AdminTemplate = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  useEffect(() => {
+    const user = layDuLieuLocal("user");
+    console.log(user);
+    if (user) {
+      if (user.maLoaiNguoiDung != "QuanTri") {
+        window.location.href = "https://www.google.com";
+      }
+    } else {
+      window.location.href = "https://www.google.com";
+    }
+  }, []);
+
   return (
     <Layout className="min-h-screen">
       <Sider trigger={null} collapsible collapsed={collapsed}>

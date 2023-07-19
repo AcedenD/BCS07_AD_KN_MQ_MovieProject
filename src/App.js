@@ -6,6 +6,8 @@ import Login from "./pages/Login/Login";
 import AdminTemplate from "./template/AdminTemplate";
 import LoginAdmin from "./pages/LoginAdmin/LoginAdmin";
 import UserManagement from "./pages/UserManagement/UserManagement";
+import UseParam from "./pages/TestUseParam/UseParam";
+import Loading from "./pages/Loading/Loading";
 
 function App() {
   return (
@@ -14,12 +16,14 @@ function App() {
         <Route path="/" element={<UserTemplate />}>
           <Route index element={<HomePage />} />
           <Route path="login" element={<Login />} />
+          <Route path="/detail/:maPhim" element={<UseParam />} />
         </Route>
         <Route path="/admin" element={<AdminTemplate />}>
           <Route path="user" element={<UserManagement />} />
         </Route>
         <Route path="/admin-login" element={<LoginAdmin />}></Route>
         <Route path="*" element={<Page404 />} />
+        {/* <Route path="/loading" element={<Loading />} /> */}
       </Routes>
     </BrowserRouter>
   );
