@@ -6,6 +6,6 @@ export const movieServ = {
   },
 
   getAllMovie: () => {
-    return https.get("/api/QuanLyPhim/LayDanhSachPhim?maNhom=GP09");
+    return https.get("/api/QuanLyPhim/LayDanhSachPhim?maNhom=GP03");
   },
 };

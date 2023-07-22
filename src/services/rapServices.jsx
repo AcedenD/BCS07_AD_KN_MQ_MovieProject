@@ -6,7 +6,7 @@ export const rapServ = {
   },
   getAllLichChieuHeThong: (maHeThong) => {
     return https.get(
-      `/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${maHeThong}&maNhom=GP09`
+      `/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${maHeThong}&maNhom=GP03`
     );
   },
 };

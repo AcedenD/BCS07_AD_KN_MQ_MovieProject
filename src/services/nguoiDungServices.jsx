@@ -6,7 +6,7 @@ export const nguoiDungServ = {
   },
 
   getAllUser: () => {
-    return https.get("/api/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP01");
+    return https.get("/api/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP03");
   },
 
   deleteUser: (taiKhoan) => {
