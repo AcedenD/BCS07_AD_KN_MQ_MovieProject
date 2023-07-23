@@ -8,6 +8,7 @@ import LoginAdmin from "./pages/LoginAdmin/LoginAdmin";
 import UserManagement from "./pages/UserManagement/UserManagement";
 import UseParam from "./pages/TestUseParam/UseParam";
 import Loading from "./pages/Loading/Loading";
+import UserProfile from "./pages/UserProfile/UserProfile";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="login" element={<Login />} />
           <Route path="/detail/:maPhim" element={<UseParam />} />
+          <Route path="/userprofile" element={<UserProfile />} />
         </Route>
         <Route path="/admin" element={<AdminTemplate />}>
           <Route path="user" element={<UserManagement />} />

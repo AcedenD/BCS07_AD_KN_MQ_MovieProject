@@ -13,3 +13,7 @@ export const layDuLieuLocal = (ten) => {
     return null;
   }
 };
+
+export const xoaDuLieuLocal = (ten) => {
+  localStorage.removeItem(ten);
+};
