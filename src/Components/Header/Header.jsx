@@ -21,7 +21,7 @@ const Header = () => {
         <div className="flex md:order-2">
           <div>
             {hoTen != null ? (
-              <NavLink to={"/login"} className="text-white text-xl mr-4">
+              <NavLink to={"/userprofile"} className="text-white text-xl mr-4">
                 <i className="fa-solid fa-circle-user mr-2" />
                 {hoTen.hoTen}
               </NavLink>
