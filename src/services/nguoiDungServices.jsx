@@ -1,8 +1,15 @@
 import { https } from "./config";
 
 export const nguoiDungServ = {
+  // group: "GP03",
+
   dangNhap: (data) => {
     return https.post("/api/QuanLyNguoiDung/DangNhap", data);
+  },
+
+  dangKy: (data) => {
+    console.log(data);
+    return https.post("/api/QuanLyNguoiDung/DangKy", data);
   },
 
   getAllUser: () => {
@@ -17,5 +24,9 @@ export const nguoiDungServ = {
 
   addUser: (data) => {
     return https.post("/api/QuanLyNguoiDung/ThemNguoiDung", data);
+  },
+
+  updateUser: (data) => {
+    return https.post("/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung", data);
   },
 };

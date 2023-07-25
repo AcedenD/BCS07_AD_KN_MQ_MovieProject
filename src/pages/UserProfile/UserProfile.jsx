@@ -1,5 +1,6 @@
 import React from "react";
 import { layDuLieuLocal, xoaDuLieuLocal } from "../../utils/localStore";
+import { NavLink } from "react-router-dom";
 
 const UserProfile = () => {
   const user = layDuLieuLocal("user");
@@ -26,9 +27,6 @@ const UserProfile = () => {
               <th scope="col" className="px-6 py-3">
                 Mã loại người dùng
               </th>
-              <th scope="col" className="px-6 py-3">
-                Mã nhóm
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -45,12 +43,12 @@ const UserProfile = () => {
               <td
                 className="px-6 py-4"
                 style={{
-                  color: user.maLoaiNguoiDung == "QuanTri" ? "magenta" : "blue",
+                  color:
+                    user.maLoaiNguoiDung == "QuanTri" ? "#9061F9" : "#3F83F8",
                 }}
               >
                 {user.maLoaiNguoiDung == "QuanTri" ? "Quản Trị" : "Khách Hàng"}
               </td>
-              <td className="px-6 py-4">{user.maNhom}</td>
             </tr>
           </tbody>
         </table>
@@ -64,6 +62,16 @@ const UserProfile = () => {
         >
           Log Out
         </button>
+        {user.maLoaiNguoiDung == "QuanTri" ? (
+          <NavLink
+            className="focus:outline-none text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-900 text-center"
+            to="/admin"
+          >
+            Admin
+          </NavLink>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
