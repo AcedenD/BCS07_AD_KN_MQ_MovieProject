@@ -27,9 +27,6 @@ const UserProfile = () => {
               <th scope="col" className="px-6 py-3">
                 Mã loại người dùng
               </th>
-              <th scope="col" className="px-6 py-3">
-                Mã nhóm
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -52,7 +49,6 @@ const UserProfile = () => {
               >
                 {user.maLoaiNguoiDung == "QuanTri" ? "Quản Trị" : "Khách Hàng"}
               </td>
-              <td className="px-6 py-4">{user.maNhom}</td>
             </tr>
           </tbody>
         </table>

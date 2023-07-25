@@ -1,6 +1,9 @@
 import * as yup from "yup";
 
-const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+const passRegex =
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
+
+const soDtRegex = /^[0-9]{10}$/;
 
 export const addUserSchema = yup.object().shape({
   taiKhoan: yup
@@ -11,14 +14,17 @@ export const addUserSchema = yup.object().shape({
     .string()
     .matches(
       passRegex,
-      "Need atleast 6 charaters, 1 upper case, 1 lower case and 1 number"
+      "Need atleast 6 charaters, 1 letter, 1 number and 1 special character"
     )
     .required("Please enter in password"),
   email: yup
     .string()
     .email("Invalid email(ex: test@gmail.com)")
     .required("Please enter in email"),
-  soDt: yup.string().required("Please enter in phone number"),
+  soDT: yup
+    .string()
+    .matches(soDtRegex, "Phone number needs to be 10 digits, and only number")
+    .required("Please enter in phone number"),
   maNhom: yup.string().required("Please enter in group code"),
   maLoaiNguoiDung: yup.string().required("Please enter in user type"),
   hoTen: yup.string().required("Please enter in full name"),

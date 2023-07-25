@@ -6,10 +6,11 @@ import { getAllUser } from "../../redux/slices/nguoiDungSlice";
 
 // id, ho ten, email, sdt, ma loai nguoi dung, action
 
-const TableUser = () => {
+const TableUser = (props) => {
   const { users } = useSelector((state) => state.nguoiDung);
   const dispatch = useDispatch();
-  // console.log(users);
+  // console.log(props);
+  console.log(users);
   const columns = [
     {
       title: "ID",
@@ -43,13 +44,6 @@ const TableUser = () => {
       key: "maLoaiNguoiDung",
       dataIndex: "maLoaiNguoiDung",
       render: (text, record, index) => {
-        // text store the value of data
-        // console.log(text);
-        // record store the object that associate with value
-        // console.log(record);
-        // index of data
-        // console.log(index);
-        // text == "QuanTri" ? "Quản Trị" : "Khách Hàng"
         return (
           <Tag color={text == "QuanTri" ? "magenta" : "blue"}>
             {text == "QuanTri" ? "Quản Trị" : "Khách Hàng"}
@@ -80,36 +74,21 @@ const TableUser = () => {
           >
             Xoá
           </button>
-          <button className="py-2 px-5 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 duration-500">
+          <button
+            className="py-2 px-5 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 duration-500"
+            onClick={() => {
+              props.showDrawer();
+              props.changeToVisible();
+              // console.log(record);
+              props.loadUser(record);
+            }}
+          >
             Sửa
           </button>
         </Space>
       ),
     },
   ];
-  // const data = [
-  //   {
-  //     key: "1",
-  //     name: "John Brown",
-  //     age: 32,
-  //     address: "New York No. 1 Lake Park",
-  //     tags: ["nice", "developer"],
-  //   },
-  //   {
-  //     key: "2",
-  //     name: "Jim Green",
-  //     age: 42,
-  //     address: "London No. 1 Lake Park",
-  //     tags: ["loser"],
-  //   },
-  //   {
-  //     key: "3",
-  //     name: "Joe Black",
-  //     age: 32,
-  //     address: "Sydney No. 1 Lake Park",
-  //     tags: ["cool", "teacher"],
-  //   },
-  // ];
 
   let newUser = users.map((item, index) => {
     return {
