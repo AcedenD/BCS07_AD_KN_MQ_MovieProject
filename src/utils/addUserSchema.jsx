@@ -29,3 +29,5 @@ export const addUserSchema = yup.object().shape({
   maLoaiNguoiDung: yup.string().required("Please enter in user type"),
   hoTen: yup.string().required("Please enter in full name"),
 });
+
+// test
