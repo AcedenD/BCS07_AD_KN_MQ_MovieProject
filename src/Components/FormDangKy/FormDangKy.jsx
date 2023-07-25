@@ -15,7 +15,7 @@ const FormDangKy = () => {
       taiKhoan: "",
       matKhau: "",
       email: "",
-      soDt: "",
+      soDT: "",
       maNhom: "GP00",
       hoTen: "",
       maLoaiNguoiDung: "KhachHang",
@@ -28,7 +28,7 @@ const FormDangKy = () => {
         const res = await nguoiDungServ.dangKy(values);
         console.log(res);
         dispatch(getAllUser());
-        messageApi.success("dang nhap thanh cong");
+        messageApi.success("dang ky thanh cong");
         formik.resetForm();
       } catch (error) {
         console.log(error);
@@ -46,7 +46,7 @@ const FormDangKy = () => {
     taiKhoan: "tester01",
     matKhau: "tester01",
     email: "tester01@gmail.com",
-    soDt: "123123",
+    soDT: "123123",
     maNhom: "GP01",
     maLoaiNguoiDung: "QuanTri",
     hoTen: "Tester",
@@ -54,8 +54,8 @@ const FormDangKy = () => {
   useEffect(() => {
     // formik.setValues(userTester);
     // formik.setFieldValue('taiKhoan', 'Nguyen123');
-    console.log(values);
-    console.log(errors);
+    // console.log(values);
+    // console.log(errors);
   }, [values]);
 
   return (
@@ -150,20 +150,20 @@ const FormDangKy = () => {
             <input
               onChange={handleChange}
               type="text"
-              name="soDt"
-              id="soDt"
+              name="soDT"
+              id="soDT"
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
-              value={values.soDt}
+              value={values.soDT}
             />
             <label
-              for="soDt"
+              for="soDT"
               class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Số Đt
             </label>
-            {formik.errors.soDt && formik.touched.soDt ? (
-              <p className=" text-red-600">{formik.errors.soDt}</p>
+            {formik.errors.soDT && formik.touched.soDT ? (
+              <p className=" text-red-600">{formik.errors.soDT}</p>
             ) : (
               ""
             )}
