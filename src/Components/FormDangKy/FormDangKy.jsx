@@ -32,7 +32,7 @@ const FormDangKy = () => {
         formik.resetForm();
       } catch (error) {
         console.log(error);
-        messageApi.error(err.response.data.content);
+        messageApi.error(error.response.data.content);
       }
     },
 
