@@ -63,7 +63,7 @@ const FormAddUser = (props) => {
     console.log("cap nhat");
     try {
       console.log(values);
-      event.preventDefault();
+      // event.preventDefault();
       // nguoiDungServ.addUser(values);
       const res = await nguoiDungServ.updateUser(values);
       console.log(res);
