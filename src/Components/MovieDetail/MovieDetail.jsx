@@ -4,16 +4,14 @@ import TabMovieDetail from "./TabMovieDetail/TabMovieDetail";
 import { Button, Modal } from "antd";
 
 const MovieDetail = (props) => {
-  console.log(props.maPhim);
-
   const [movieDetail, setMovieDetail] = useState({});
-  const [showtime, setShowtime] = useState({});
-  console.log(movieDetail);
+  const [showtime, setShowtime] = useState([]);
+  console.log("movieDetail: ", movieDetail);
   useEffect(() => {
     movieServ
       .getMovieDetail(props.maPhim)
       .then((res) => {
-        console.log("info: ", res.data.content);
+        console.log(res);
         setMovieDetail(res.data.content);
       })
       .catch((err) => {
@@ -24,14 +22,13 @@ const MovieDetail = (props) => {
     movieServ
       .getShowtime(props.maPhim)
       .then((res) => {
-        console.log("lich chieu: ", res.data.content);
-        setShowtime(res.data.content);
+        console.log(res);
+        setShowtime(res.data.content.heThongRapChieu);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [props.maPhim]);
-  console.log("Dang chieu", movieDetail.dangChieu);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -43,26 +40,6 @@ const MovieDetail = (props) => {
     setIsModalOpen(false);
   };
   return (
-    // <div className=" w-screen max-h-96 bg-slate-500 flex justify-center  items-center">
-    //   <a
-    //     href="..."
-    //     className="flex flex-crow items-center bg-white border border-gray-200 rounded-lg shadow md:max-w-3xl max-h-96 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 my-5 p-5"
-    //   >
-    //     <img
-    //       className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-    //       src={selectedMovie[0].hinhAnh}
-    //       alt="movie hinh anh"
-    //     />
-    //     <div className="flex flex-col justify-between p-4 leading-normal text-center">
-    //       <h5 className=" text-5xl font-bold tracking-tight text-gray-900 dark:text-white my-4">
-    //         {selectedMovie[0].tenPhim}
-    //       </h5>
-    //       <p className="mb-3 font-normal text-xl text-gray-700 dark:text-gray-400 ">
-    //         {selectedMovie[0].moTa}
-    //       </p>
-    //     </div>
-    //   </a>
-    // </div>
     <div className="container">
       <div className="bg-white">
         <div className="pt-6 flex">
@@ -90,6 +67,15 @@ const MovieDetail = (props) => {
                 <div className="space-y-5">
                   <p className="text-base text-gray-900">{movieDetail.moTa}</p>
                 </div>
+                <h3 className="mt-5 text-sm font-bold text-gray-900">
+                  Thời lượng:
+                  <span className="font-normal ml-3">
+                    {showtime[0]
+                      ? showtime[0].cumRapChieu[0].lichChieuPhim[0].thoiLuong
+                      : "Chưa rõ"}
+                    <span className="ml-2">phút</span>
+                  </span>
+                </h3>
                 <h3 className="mt-5 text-sm font-bold text-gray-900">
                   Đánh giá:
                   <span className="font-normal ml-3">
@@ -127,7 +113,7 @@ const MovieDetail = (props) => {
           onCancel={handleCancel}
           footer={[
             <Button key="back" onClick={handleCancel}>
-              Return
+              Close
             </Button>,
           ]}
         >
@@ -136,7 +122,7 @@ const MovieDetail = (props) => {
           </video>
         </Modal>
       </div>
-      <TabMovieDetail />
+      <TabMovieDetail showtime={showtime} />
     </div>
   );
 };
