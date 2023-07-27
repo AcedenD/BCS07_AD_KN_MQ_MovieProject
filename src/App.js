@@ -9,6 +9,8 @@ import UserManagement from "./pages/UserManagement/UserManagement";
 import UseParam from "./pages/TestUseParam/UseParam";
 import Loading from "./pages/Loading/Loading";
 import UserProfile from "./pages/UserProfile/UserProfile";
+import MovieManagement from "./pages/MovieManagement/MovieManagement";
+import ShowtimeManagement from "./pages/ShowtimeManagement/ShowtimeManagement";
 
 function App() {
   return (
@@ -22,6 +24,9 @@ function App() {
         </Route>
         <Route path="/admin" element={<AdminTemplate />}>
           <Route path="user" element={<UserManagement />} />
+          <Route path="movie" element={<MovieManagement />} />
+          <Route path="showtime" element={<ShowtimeManagement />} />
+
         </Route>
         <Route path="/admin-login" element={<LoginAdmin />}></Route>
         <Route path="*" element={<Page404 />} />

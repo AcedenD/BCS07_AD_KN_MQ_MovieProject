@@ -9,7 +9,9 @@ import {
 import { Layout, Menu, Button, theme } from "antd";
 import { NavLink, Outlet } from "react-router-dom";
 import { layDuLieuLocal } from "../utils/localStore";
+
 const { Header, Sider, Content } = Layout;
+
 
 const AdminTemplate = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -51,7 +53,7 @@ const AdminTemplate = () => {
             {
               key: "3",
               icon: <i className="fa-regular fa-calendar-days" />,
-              label: <NavLink to="/admin/show-time">Show Time</NavLink>,
+              label: <NavLink to="/admin/showtime">Show Time</NavLink>,
             },
           ]}
         />

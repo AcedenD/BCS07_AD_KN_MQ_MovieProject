@@ -18,4 +18,11 @@ export const nguoiDungServ = {
   addUser: (data) => {
     return https.post("/api/QuanLyNguoiDung/ThemNguoiDung", data);
   },
+
+  editUser: (userData) => {
+    return https.put(
+      "/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung",
+      userData
+    );
+  },
 };

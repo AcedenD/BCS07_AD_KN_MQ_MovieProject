@@ -3,10 +3,11 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { nguoiDungServ } from "../../services/nguoiDungServices";
 import { useDispatch } from "react-redux";
-import { getAllUser } from "../../redux/slices/nguoiDungSlice";
+import { editUser, getAllUser } from "../../redux/slices/nguoiDungSlice";
 
-const FormAddUser = () => {
+const FormEditUser = ({ userData, onCloseEditDrawer }) => {
   const dispatch = useDispatch();
+  
   const validationSchema = yup.object().shape({
     hoTen: yup.string().required("Họ tên không được bỏ trống"),
     email: yup
@@ -19,6 +20,7 @@ const FormAddUser = () => {
     maLoaiNguoiDung: yup.string().required("Chọn loại người dùng"),
     maNhom: yup.string().required("Mã nhóm không được bỏ trống"),
   });
+
   const formik = useFormik({
     initialValues: {
       taiKhoan: "",
@@ -29,36 +31,23 @@ const FormAddUser = () => {
       maLoaiNguoiDung: "",
       hoTen: "",
     },
+
+  
+
+    validationSchema,
     onSubmit: async (values) => {
       try {
-        console.log(values);
-        // nguoiDungServ.addUser(values);
-        const res = await nguoiDungServ.addUser(values);
-        console.log(res);
-        dispatch(getAllUser());
+        await dispatch(editUser(values));
+        onCloseEditDrawer();
       } catch (error) {
         console.log(error);
       }
     },
 
-    // add validation using yup from yup library
   });
 
   const { handleSubmit, handleChange, values } = formik;
 
-  const userTester = {
-    taiKhoan: "tester01",
-    matKhau: "tester01",
-    email: "tester01@gmail.com",
-    soDt: "123123",
-    maNhom: "GP01",
-    maLoaiNguoiDung: "QuanTri",
-    hoTen: "Tester",
-  };
-  useEffect(() => {
-    // formik.setValues(userTester);
-    // formik.setFieldValue('taiKhoan', 'Nguyen123');
-  }, []);
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -191,11 +180,11 @@ const FormAddUser = () => {
           type="submit"
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Thêm người dùng
+          Cập nhập người dùng
         </button>
       </form>
     </div>
   );
 };
 
-export default FormAddUser;
+export default FormEditUser;
