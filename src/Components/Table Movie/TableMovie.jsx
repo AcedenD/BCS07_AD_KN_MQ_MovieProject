@@ -6,11 +6,16 @@ import { getAllMovie } from '../../redux/slices/movieSlice';
 
 
 //Mã Phim, Hình Ảnh, Tên Phim, Mô Tả, Hành Động
-const TableMovie = () => {
+const TableMovie = ({ searchKeyword }) => {
     const {phimData} = useSelector((state) => state.movies);
-    console.log(phimData);
+    // console.log(phimData);
     const dispatch = useDispatch();
+
     const ref = useRef();
+
+    const filteredMovies = phimData.filter((movie) =>
+    movie.tenPhim.toLowerCase().includes(searchKeyword.toLowerCase())
+  );
 
     const shortenText = (text, maxLength) => {
         if (text.split(' ').length > maxLength) {
@@ -74,9 +79,10 @@ const TableMovie = () => {
                             console.log(err);
                             alert("There is a problem deleting");
                           });
-                      }}>Xóa</button>
+                      }}><i class="fa-solid fa-trash-can"></i></button>
 
-                    <button className='py-2 px-5 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 suration-500'>Sửa</button>
+                    <button className='py-2 px-5 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 suration-500'><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button className='py-2 px-5 bg-green-600 text-white rounded-lg hover:bg-green-700 suration-500'><i class="fa-solid fa-calendar-days"></i></button>
 
                 </Space>
             ),
@@ -91,7 +97,7 @@ const TableMovie = () => {
       });
 
     return (
-        <Table columns={columns} dataSource={newMovie.length > 0 && newMovie} />
+        <Table columns={columns} dataSource={newMovie.length > 0 && newMovie, filteredMovies} />
     )
 }
 
