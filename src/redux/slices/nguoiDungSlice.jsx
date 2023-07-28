@@ -10,18 +10,12 @@ export const getAllUser = createAsyncThunk("nguoiDung/getAllUser", async () => {
   return res.data.content;
 });
 
-export const editUser = createAsyncThunk("nguoiDung/editUser", async (userData) => {
-  const res = await nguoiDungServ.editUser(userData);
-  return res.data; 
-});
-
 const initialState = {
   hoTen: layDuLieuLocal("user"),
   users: [],
 };
 
 export const nguoiDungSlice = createSlice({
-
   name: "nguoiDung",
   initialState,
   reducers: {
@@ -67,7 +61,5 @@ export const nguoiDungSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { setDuLieuHoTen } = nguoiDungSlice.actions;
-
-
 
 export default nguoiDungSlice.reducer;
