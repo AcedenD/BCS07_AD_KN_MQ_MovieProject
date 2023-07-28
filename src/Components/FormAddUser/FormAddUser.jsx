@@ -12,6 +12,18 @@ const FormAddUser = (props) => {
 
   // console.log(props);
   const dispatch = useDispatch();
+  const validationSchema = yup.object().shape({
+    hoTen: yup.string().required("Họ tên không được bỏ trống"),
+    email: yup
+      .string()
+      .email("Email không hợp lệ")
+      .required("Email không được bỏ trống"),
+    matKhau: yup.string().required("Mật khẩu không được bỏ trống"),
+    soDt: yup.string().required("Số điện thoại không được bỏ trống"),
+    taiKhoan: yup.string().required("Tài khoản không được bỏ trống"),
+    maLoaiNguoiDung: yup.string().required("Chọn loại người dùng"),
+    maNhom: yup.string().required("Mã nhóm không được bỏ trống"),
+  });
   const formik = useFormik({
     initialValues: {
       taiKhoan: "",

@@ -5,6 +5,7 @@ import { getAllUser } from "../../redux/slices/nguoiDungSlice";
 import TableUser from "../../Components/TableUser/TableUser";
 import { Drawer } from "antd";
 import FormAddUser from "../../Components/FormAddUser/FormAddUser";
+import FormEditUser from "../../Components/FormEditUser/FormEditUser";
 
 const UserManagement = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const UserManagement = () => {
     //     console.log(err);
     //   });
     dispatch(getAllUser());
-  }, []);
+  }, [dispatch]);
 
   // console.log(users);
 
@@ -55,6 +56,15 @@ const UserManagement = () => {
 
   // console.log(values);
 
+  // Edit Drawer 
+  const showEditDrawer = () => {
+    setEditDrawerVisible(true);
+  };
+  const onCloseEditDrawer = () => {
+    setEditDrawerVisible(false);
+  };
+  const [editDrawerVisible, setEditDrawerVisible] = useState(false);
+
   return (
     <div>
       <button
@@ -73,12 +83,14 @@ const UserManagement = () => {
       >
         <FormAddUser visible={visible} user={values} open={open} />
       </Drawer>
+
       <TableUser
         showDrawer={showDrawer}
         visible={visible}
         changeToVisible={changeToVisible}
         loadUser={loadUser}
       />
+
     </div>
   );
 };

@@ -26,7 +26,9 @@ export const nguoiDungServ = {
     return https.post("/api/QuanLyNguoiDung/ThemNguoiDung", data);
   },
 
+
   updateUser: (data) => {
     return https.post("/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung", data);
+
   },
 };

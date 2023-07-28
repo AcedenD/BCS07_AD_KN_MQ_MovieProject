@@ -10,12 +10,18 @@ export const getAllUser = createAsyncThunk("nguoiDung/getAllUser", async () => {
   return res.data.content;
 });
 
+export const editUser = createAsyncThunk("nguoiDung/editUser", async (userData) => {
+  const res = await nguoiDungServ.editUser(userData);
+  return res.data; 
+});
+
 const initialState = {
   hoTen: layDuLieuLocal("user"),
   users: [],
 };
 
 export const nguoiDungSlice = createSlice({
+
   name: "nguoiDung",
   initialState,
   reducers: {
@@ -34,6 +40,9 @@ export const nguoiDungSlice = createSlice({
     // khi xử lí thì bên trong hàm sẽ có 3 phương thức tương ứng với các trường hợp chạy thành công, đang chạy, thất bại
     // fulfilled, pending, reject
     builder.addCase(getAllUser.fulfilled, (state, action) => {
+      const index = state.users.findIndex(
+        (user) => user.taiKhoan === action.payload.taiKhoan
+      );
       // in action, payload will return data
       state.users = action.payload;
       // console.log(action);
@@ -58,5 +67,7 @@ export const nguoiDungSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { setDuLieuHoTen } = nguoiDungSlice.actions;
+
+
 
 export default nguoiDungSlice.reducer;
