@@ -32,7 +32,6 @@ const TabMovieItem = ({ maHeThongRap }) => {
         key: index,
         children: (
           <div className="space-y-5">
-            {" "}
             {item.danhSachPhim.map((item, index) => {
               if (item.dangChieu) {
                 return (
