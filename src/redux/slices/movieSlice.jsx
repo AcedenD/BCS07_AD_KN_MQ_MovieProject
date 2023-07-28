@@ -1,40 +1,45 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { movieServ } from "../../services/movieServices";
+import { layDuLieuLocal } from "../../utils/localStore";
 
-// Define initial state
-const initialState = {
-  movies: [],
-  status: "idle",
-  error: null,
+
+export const getAllMovie = createAsyncThunk("movies/getAllMovie", async () => {
+  const res = await movieServ.getAllMovie();
+  return res.data.content;
+});
+
+
+const initialState ={
+  tenPhim: layDuLieuLocal('user'),
+  phimData: [],
 };
 
-// Define async thunk to fetch movie data
-export const fetchMovies = createAsyncThunk("movies/fetchMovies", async () => {
-  const response = await movieServ.getAllMovie();
-  return response.data;
-});
 
-// Create the Redux slice
-const movieSlice = createSlice({
-  name: "movies",
+export const movieSlice = createSlice({
+  name:'movies',
   initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchMovies.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchMovies.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.movies = action.payload;
-      })
-      .addCase(fetchMovies.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
-      });
+  reducers:{
   },
-});
+    extraReducers: (builder) => {
+    builder
+    
+      // .addCase(getAllMovie.pending, (state) => {
+      //   state.status = "loading";
+      // })
+      .addCase(getAllMovie.fulfilled, (state, action) => {
+        // const index =state.phimData.findIndex(
+        //   (phimData)=> phimData.maPhim ===action.payload.maPhim);
+        state.phimData = action.payload;
+      })
+      // .addCase(getAllMovie.rejected, (state, action) => {
+      //   state.status = "failed";
+      //   state.error = action.error.message;
+      // });
+  },
 
-// Export the async thunk and the reducer
-export const { reducer } = movieSlice;
-export default movieSlice;
+})
+
+
+export const {} = movieSlice.actions
+
+export default movieSlice.reducer
