@@ -33,6 +33,9 @@ const UserManagement = () => {
   // cac data ve Drawer from antdesign
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState("right");
+  const [visible, setVisible] = useState(false);
+  const [values, setValues] = useState({});
+
   const showDrawer = () => {
     setOpen(true);
   };
@@ -41,7 +44,17 @@ const UserManagement = () => {
   };
   const onClose = () => {
     setOpen(false);
+    setVisible(false);
   };
+  const changeToVisible = () => {
+    setVisible(true);
+  };
+  const loadUser = (user) => {
+    console.log(user);
+    setValues(user);
+  };
+
+  // console.log(values);
 
   // Edit Drawer 
   const showEditDrawer = () => {
@@ -68,20 +81,16 @@ const UserManagement = () => {
         open={open}
         size="large"
       >
-        <FormAddUser />
+        <FormAddUser visible={visible} user={values} open={open} />
       </Drawer>
-      {/* Edit Drawer  */}
-      <Drawer
-        title="Sửa người dùng"
-        placement={placement}
-        width={500}
-        onClose={onCloseEditDrawer}
-        open={editDrawerVisible}
-        size="large"
-      >
-        <FormEditUser />
-      </Drawer>
-      <TableUser showEditDrawer={showEditDrawer} />
+
+      <TableUser
+        showDrawer={showDrawer}
+        visible={visible}
+        changeToVisible={changeToVisible}
+        loadUser={loadUser}
+      />
+
     </div>
   );
 };

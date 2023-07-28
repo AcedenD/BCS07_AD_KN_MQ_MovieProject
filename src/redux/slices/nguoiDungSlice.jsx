@@ -50,14 +50,14 @@ export const nguoiDungSlice = createSlice({
     });
 
     // reject will run when async function run and return err
-    builder.addCase(getAllUser.rejected, (state, action) => {
-      state.users = [
-        {
-          hoTen: "Aden",
-          maLoaiNguoiDung: "QuanTri",
-        },
-      ];
-    });
+    // builder.addCase(getAllUser.rejected, (state, action) => {
+    //   state.users = [
+    //     {
+    //       hoTen: "Aden",
+    //       maLoaiNguoiDung: "QuanTri",
+    //     },
+    //   ];
+    // });
 
     // builder.addCase(getAllUser.pending, (state, action) => {
     //   console.log("hello");

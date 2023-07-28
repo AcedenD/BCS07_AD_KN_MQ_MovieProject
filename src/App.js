@@ -11,6 +11,7 @@ import Loading from "./pages/Loading/Loading";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import MovieManagement from "./pages/MovieManagement/MovieManagement";
 import ShowtimeManagement from "./pages/ShowtimeManagement/ShowtimeManagement";
+import SignUp from "./pages/SignUp/SignUp";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="/detail/:maPhim" element={<UseParam />} />
           <Route path="/userprofile" element={<UserProfile />} />
+          <Route path="/signup" element={<SignUp />} />
         </Route>
         <Route path="/admin" element={<AdminTemplate />}>
           <Route path="user" element={<UserManagement />} />

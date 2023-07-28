@@ -1,8 +1,15 @@
 import { https } from "./config";
 
 export const nguoiDungServ = {
+  // group: "GP03",
+
   dangNhap: (data) => {
     return https.post("/api/QuanLyNguoiDung/DangNhap", data);
+  },
+
+  dangKy: (data) => {
+    console.log(data);
+    return https.post("/api/QuanLyNguoiDung/DangKy", data);
   },
 
   getAllUser: () => {
@@ -19,10 +26,9 @@ export const nguoiDungServ = {
     return https.post("/api/QuanLyNguoiDung/ThemNguoiDung", data);
   },
 
-  editUser: (userData) => {
-    return https.put(
-      "/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung",
-      userData
-    );
+
+  updateUser: (data) => {
+    return https.post("/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung", data);
+
   },
 };
