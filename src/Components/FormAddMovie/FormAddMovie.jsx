@@ -1,78 +1,51 @@
-import React, { useState } from 'react';
-import * as yup from "yup";
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space,  Switch, Upload } from 'antd';
-import { InboxOutlined } from "@ant-design/icons";
+import React from 'react'
+import { Form, Input, DatePicker, Switch, Upload, Button, Col, Row,Space } from 'antd';
+import { InboxOutlined } from '@ant-design/icons';
+import { useFormik } from 'formik';
 
-const validationSchema = yup.object().shape({
-    maPhim: yup.number().positive().integer().min(10000).max(99999).required(),
-    soSao: yup.number().integer().min(1).max(10).required(),
+
+
+
+const FormAddMovie = () => {
+//Form
+const normFile = (e) => {
+  if (Array.isArray(e)) {
+    return e;
+  }
+  return e && e.fileList;
+};
+
+
+  //Formik
+  const formik = useFormik({
+    initialValues: {
+      maPhim: "",
+      tenPhim: "",
+      moTa: "",
+      ngayKhoiChieu: "",
+      dangChieu: "",
+      sapChieu: "",
+      hot: "",
+      danhGia: "",
+      hinhAnh: "",
+    },
+    onSubmit: async (values) => {
+      console.log(values)
+      // try {
+      //   const res = await movieServ.addMovie(values);
+      //   messageApi.success("Thêm Phim Thành Công");
+      //   dispatch(getAllMovie());
+      //   formik.resetForm();
+      // } catch (error) {
+      //   messageApi.error(error.response.data.content);
+      //   formik.resetForm();
+      // }
+    },
   });
 
-const { Option } = Select;
-const FormAddMovie = () => {
-  const [open, setOpen] = useState(false);
-  const showDrawer = () => {
-    setOpen(true);
-  };
-  const onClose = () => {
-    setOpen(false);
-  };
-  const onFinish = (values) => {
-    console.log(values);
-  };
-
-  const normFile = (e) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
-
-  // const formik = useFormik({
-  //   initialValues: {
-  //     maPhim: "",
-  //     tenPhim: "",
-  //     moTa: "",
-  //     ngayKhoiChieu: "",
-  //     dangChieu: "",
-  //     sapChieu: "",
-  //     hot: "",
-  //     danhGia: "",
-  //     hinhAnh: "",
-  //   },
-  //   onSubmit: async (values) => {
-  //     try {
-  //       const res = await movieServ.addMovie(values);
-  //       messageApi.success("them phim thanh cong");
-  //       dispatch(getAllMovie());
-  //       formik.resetForm();
-  //     } catch (error) {
-  //       messageApi.error(error.response.data.content);
-  //       formik.resetForm();
-  //     }
-  //   },
-
-  //   // add validation using yup from yup library
-  //   validationSchema: addUserSchema,
-  // });
   return (
-    <>
     <div>
-      <Button className='bg-green-600 text-white rounded-lg mb-5 'onClick={showDrawer} >
-      <i class="fa-solid fa-plus"></i>  Thêm Phim
-      </Button>
-      </div>
-      <Drawer
-        title="Create a new monvie"
-        width={720}
-        onClose={onClose}
-        open={open}
-        bodyStyle={{
-          paddingBottom: 80,
-        }}
-      >
-          <Form layout="vertical" hideRequiredMark onFinish={onFinish} validationSchema={validationSchema}>
+     <Form layout="vertical" >
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item
@@ -174,7 +147,7 @@ const FormAddMovie = () => {
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item
-            name="soSao"
+            name="danhGia"
             label="Số Sao"
             rules={[
               {
@@ -218,14 +191,14 @@ const FormAddMovie = () => {
           </Form.Item>
         </Col>
       </Row>
-    </Form>
-        <Space>
-        <Button onClick={onClose} Button className='bg-green-600 text-white rounded-lg mb-5 '>
+      <Space>
+        <Button className='bg-green-600 text-white rounded-lg mb-5 '>
             Thêm Phim
             </Button>
             </Space>
-      </Drawer>
-    </>
-  );
-};
-export default FormAddMovie;
+    </Form>
+    </div>
+  )
+}
+
+export default FormAddMovie

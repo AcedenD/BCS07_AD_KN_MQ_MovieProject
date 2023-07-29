@@ -9,13 +9,14 @@ import { getAllMovie } from '../../redux/slices/movieSlice';
 const TableMovie = ({ searchKeyword }) => {
     const {phimData} = useSelector((state) => state.movies);
     // console.log(phimData);
-    const dispatch = useDispatch();
-
-    const ref = useRef();
 
     const filteredMovies = phimData.filter((movie) =>
     movie.tenPhim.toLowerCase().includes(searchKeyword.toLowerCase())
   );
+
+  const dispatch = useDispatch();
+
+  const ref = useRef();
 
     const shortenText = (text, maxLength) => {
         if (text.split(' ').length > maxLength) {
@@ -89,15 +90,15 @@ const TableMovie = ({ searchKeyword }) => {
         },
     ];
 
-    let newMovie = phimData.map((item, index) => {
-        return {
-          ...item,
-          id: index + 1,
-        };
-      });
+  const filteredAndMappedMovies = phimData.map((item, index) => ({
+    ...item,
+    id: index + 1,
+  })).filter((movie) =>
+    movie.tenPhim.toLowerCase().includes(searchKeyword.toLowerCase())
+  );
 
     return (
-        <Table columns={columns} dataSource={newMovie.length > 0 && newMovie, filteredMovies} />
+        <Table columns={columns} dataSource={filteredAndMappedMovies} />
     )
 }
 
