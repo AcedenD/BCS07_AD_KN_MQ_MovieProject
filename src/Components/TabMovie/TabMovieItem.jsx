@@ -39,8 +39,8 @@ const TabMovieItem = ({ maHeThongRap }) => {
                     <div className="w-2/12">
                       <img src={item.hinhAnh} alt="" />
                     </div>
-                    <div className="w-10/12">
-                      <h3>{item.tenPhim}</h3>
+                    <div className="w-10/12 ml-3">
+                      <h3 className="text-2xl font-bold">{item.tenPhim}</h3>
                       <div className="flex flex-wrap">
                         {item.lstLichChieuTheoPhim
                           .slice(0, 5)
@@ -48,11 +48,18 @@ const TabMovieItem = ({ maHeThongRap }) => {
                             return (
                               <p
                                 key={index}
-                                className="w-1/2 border border-black rounded-md py-2 px-3 my-2"
+                                className="w-1/3 border border-gray-300 rounded-md py-2 px-3 my-2 shadow-md mr-2"
                               >
-                                {moment(suatChieu.ngayChieuGioChieu).format(
-                                  "DD/MM/YYY , h:mm"
-                                )}
+                                <span className="mr-2 font-bold text-green-600">
+                                  {moment(suatChieu.ngayChieuGioChieu).format(
+                                    "DD/MM/YYYY"
+                                  )}
+                                </span>
+                                <span className="mr-2 font-bold text-red-600">
+                                  {moment(suatChieu.ngayChieuGioChieu).format(
+                                    "HH:mm "
+                                  )}
+                                </span>
                               </p>
                             );
                           })}
