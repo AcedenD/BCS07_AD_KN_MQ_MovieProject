@@ -33,7 +33,7 @@
 }
 
 .seat.sold {
-  background-color: #fff;
+  background-color: #eee;
 }
 
 .seat:nth-of-type(2) {
@@ -55,13 +55,12 @@
 }
 
 .showcase {
-  background: rgba(0, 0, 0, 0.1);
   padding: 5px 10px;
   border-radius: 5px;
   color: #777;
   list-style-type: none;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .showcase li {

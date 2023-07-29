@@ -26,6 +26,20 @@ const BookingTicket = () => {
     <div className="flex mt-10">
       <div className="w-8/12">
         <Seats seatList={seatList} />
+        <ul class="showcase">
+          <li>
+            <div class="seat"></div>
+            <small>Available</small>
+          </li>
+          <li>
+            <div class="seat selected"></div>
+            <small>Selected</small>
+          </li>
+          <li>
+            <div class="seat sold"></div>
+            <small>Sold</small>
+          </li>
+        </ul>
       </div>
       <div className="w-4/12">
         <FormBooking movieInfo={movieInfo} />
