@@ -24,72 +24,18 @@ const Seats = (props) => {
         return (
           <div className="row" key={index}>
             {item.map((ghe) => {
-              return <div className="seat" key={ghe.maGhe}></div>;
+              return (
+                <div
+                  className={`seat ${ghe.loaiGhe === "vip" ? "vip" : ""} ${
+                    ghe.daDat ? "sold" : ""
+                  }`}
+                  key={ghe.maGhe}
+                ></div>
+              );
             })}
           </div>
         );
       })}
-      {/* <div class="row">
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-      </div>
-
-      <div class="row">
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat sold"></div>
-        <div class="seat sold"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-      </div>
-      <div class="row">
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat sold"></div>
-        <div class="seat sold"></div>
-      </div>
-      <div class="row">
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-      </div>
-      <div class="row">
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat sold"></div>
-        <div class="seat sold"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-      </div>
-      <div class="row">
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat sold"></div>
-        <div class="seat sold"></div>
-        <div class="seat sold"></div>
-        <div class="seat"></div>
-      </div> */}
     </div>
   );
 };
