@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 
 
 
-const FormAddMovie = () => {
+const FormAddMovie = ({formData}) => {
   const [messageApi, contextHolder] = message.useMessage();
   const dispatch = useDispatch();
 
@@ -34,15 +34,15 @@ const FormAddMovie = () => {
   //Formik
   const formik = useFormik({
     initialValues: {
-      maPhim: "",
-      tenPhim: "",
-      moTa: "",
-      ngayKhoiChieu: "",
-      dangChieu: "",
-      sapChieu: "",
-      hot: "",
-      danhGia: "",
-      hinhAnh: "",
+      maPhim: formData.maPhim || '',
+      tenPhim: formData.tenPhim || '',
+      moTa: formData.moTa || '',
+      ngayKhoiChieu: formData.ngayKhoiChieu || '',
+      dangChieu: formData.dangChieu || '',
+      sapChieu: formData.sapChieu || '',
+      hot: formData.hot || '',
+      danhGia: formData.danhGia || '',
+      hinhAnh: formData.hinhAnh || '',
     },
     onSubmit: async (values) => {
       console.log(values);
@@ -188,10 +188,12 @@ const{handleSubmit, handleChange, values} =formik
           onChange={handleChange}
           id="moTa" rows={5} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Mô tả nội dung phim" defaultValue={""} />
         </div>
+        
       </div>
       <button type="submit" className="bg-green-600 px-5 py-2 text-white rounded-lg mt-4 mb-5 hover:bg-green-800">
         Add Movie
       </button>
+
       <button type="submit" className="ms-3 bg-orange-600 px-5 py-2 text-white rounded-lg mt-4 mb-5 hover:bg-orange-800">
         Cập Nhật
       </button>
