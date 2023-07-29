@@ -3,6 +3,9 @@ import moment from "moment";
 
 const TabItem = (props) => {
   console.log("TabItem: ", props.heThongRap.cumRapChieu);
+  const handleClickMaLichChieu = (maLichChieu) => {
+    props.setMaLichChieu(maLichChieu);
+  };
   const renderCumRapChieu = () => {
     return props.heThongRap.cumRapChieu?.map((cumRap, index) => (
       <div className="container" key={index}>
@@ -14,7 +17,12 @@ const TabItem = (props) => {
             <p>{cumRap.tenCumRap}</p>
             <p className="truncate ...">{cumRap.diaChi}</p>
             {cumRap.lichChieuPhim?.map((item, index) => (
-              <p key={index}>{item.ngayChieuGioChieu}</p>
+              <button
+                onClick={() => handleClickMaLichChieu(item.maLichChieu)}
+                key={index}
+              >
+                {item.ngayChieuGioChieu}
+              </button>
             ))}
             {/* <div>{moment(cumRap.lichChieuPhim).format("DD/MM/YYY , h:mm")}</div> */}
           </div>

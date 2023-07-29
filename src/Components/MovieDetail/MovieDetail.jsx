@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { movieServ } from "../../services/movieServices";
 import TabMovieDetail from "./TabMovieDetail/TabMovieDetail";
 import { Button, Modal } from "antd";
+import { NavLink } from "react-router-dom";
 
 const MovieDetail = (props) => {
   const [movieDetail, setMovieDetail] = useState({});
   const [showtime, setShowtime] = useState([]);
+  const [maLichChieu, setMaLichChieu] = useState("");
+  console.log("maLichChieu:", maLichChieu);
   console.log("movieDetail: ", movieDetail);
   useEffect(() => {
     movieServ
@@ -22,13 +25,14 @@ const MovieDetail = (props) => {
     movieServ
       .getShowtime(props.maPhim)
       .then((res) => {
-        console.log(res);
+        console.log("res: ", res);
         setShowtime(res.data.content.heThongRapChieu);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [props.maPhim]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -44,8 +48,12 @@ const MovieDetail = (props) => {
       <div className="bg-white">
         <div className="pt-6 flex">
           {/* Image gallery */}
-          <div className="mx-auto mt-6 sm:px-6 lg:max-w-7xl lg:gap-x-8 lg:px-8">
-            <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
+          <div
+            className="w-4/12 mt-6 max-w-2xl sm:px-6 lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8"
+            // width="250 mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8"
+            // height=" w-4/12 mx-auto mt-6 sm:px-6 lg:max-w-7xl lg:gap-x-8 lg:px-8"
+          >
+            <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
               <img
                 src={movieDetail.hinhAnh}
                 alt="Two each of gray, white, and black shirts laying flat."
@@ -54,8 +62,8 @@ const MovieDetail = (props) => {
             </div>
           </div>
           {/* Film info */}
-          <div className="mx-auto max-w-2xl px-4 pb-5 pt-2 sm:px-6 lg:max-w-7xl lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-10">
-            <div className="lg:pr-8">
+          <div className="w-8/12 mx-auto m ax-w-2xl px-4 pb-5 pt-2 sm:px-6 lg:max-w-7xl lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-10">
+            <div className="lg:col-span-2 lg:pr-8">
               <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
                 {movieDetail.tenPhim}
               </h1>
@@ -96,12 +104,12 @@ const MovieDetail = (props) => {
             >
               Xem trailer
             </button>
-            <button
-              type="submit"
+            <NavLink
+              to={maLichChieu ? `booking/${maLichChieu}` : ""}
               className="rounded-md border border-transparent bg-indigo-600 px-5 py-3 mt-5 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Mua vé ngay
-            </button>
+            </NavLink>
           </div>
         </div>
         {/* TrailerVideo Modal */}
@@ -122,7 +130,7 @@ const MovieDetail = (props) => {
           </video>
         </Modal>
       </div>
-      <TabMovieDetail showtime={showtime} />
+      <TabMovieDetail showtime={showtime} setMaLichChieu={setMaLichChieu} />
     </div>
   );
 };

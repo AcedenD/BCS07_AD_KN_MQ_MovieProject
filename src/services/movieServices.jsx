@@ -16,4 +16,9 @@ export const movieServ = {
       `/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${maPhim}`
     );
   },
+  getBookingList: (maLichChieu) => {
+    return https.get(
+      `/api/QuanLyDatVe/LayDanhSachPhongVe?MaLichChieu=${maLichChieu}`
+    );
+  },
 };
