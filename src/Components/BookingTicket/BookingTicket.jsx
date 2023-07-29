@@ -32,6 +32,10 @@ const BookingTicket = () => {
             <small>Available</small>
           </li>
           <li>
+            <div class="seat vip"></div>
+            <small>VIP</small>
+          </li>
+          <li>
             <div class="seat selected"></div>
             <small>Selected</small>
           </li>

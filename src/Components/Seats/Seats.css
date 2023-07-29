@@ -31,6 +31,9 @@
 .seat.selected {
   background-color: green;
 }
+.seat.vip {
+  background-color: #ecec2b;
+}
 
 .seat.sold {
   background-color: #eee;
