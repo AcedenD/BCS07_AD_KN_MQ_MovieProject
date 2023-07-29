@@ -6,7 +6,7 @@ import { getAllMovie } from '../../redux/slices/movieSlice';
 
 
 //Mã Phim, Hình Ảnh, Tên Phim, Mô Tả, Hành Động
-const TableMovie = ({ searchKeyword }) => {
+const TableMovie = ({ searchKeyword, showDrawer}) => {
     const {phimData} = useSelector((state) => state.movies);
     // console.log(phimData);
 
@@ -83,8 +83,9 @@ const TableMovie = ({ searchKeyword }) => {
                           });
                       }}><i class="fa-solid fa-trash-can"></i></button>
 
-                    <button className='py-2 px-5 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 suration-500'
+                    <button onClick={showDrawer} className='py-2 px-5 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 suration-500'
                     title="Sửa"><i class="fa-solid fa-pen-to-square"></i></button>
+
                     <button className='py-2 px-5 bg-green-600 text-white rounded-lg hover:bg-green-700 suration-500' title="Tạo Lịch Chiếu"><i class="fa-solid fa-calendar-days"></i></button>
 
                 </Space>

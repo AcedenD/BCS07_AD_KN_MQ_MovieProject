@@ -39,9 +39,9 @@ const MovieManagement = () => {
       </button>
     
     <AdminSearch onSearch={handleSearch} />
-    <TableMovie searchKeyword={searchKeyword}  />
+    <TableMovie searchKeyword={searchKeyword}  showDrawer={showDrawer}/>
     <Drawer
-        title="Thêm Phim Mới"
+        title="Thông Tin Phim"
         width={720}
         onClose={onClose}
         open={open}

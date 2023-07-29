@@ -192,6 +192,9 @@ const{handleSubmit, handleChange, values} =formik
       <button type="submit" className="bg-green-600 px-5 py-2 text-white rounded-lg mt-4 mb-5 hover:bg-green-800">
         Add Movie
       </button>
+      <button type="submit" className="ms-3 bg-orange-600 px-5 py-2 text-white rounded-lg mt-4 mb-5 hover:bg-orange-800">
+        Cập Nhật
+      </button>
     </form>
   )
 }
