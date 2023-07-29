@@ -38,6 +38,7 @@ const FormAddMovie = () => {
       tenPhim: "",
       moTa: "",
       ngayKhoiChieu: "",
+      maNhom: "",
       dangChieu: "",
       sapChieu: "",
       hot: "",
@@ -105,6 +106,27 @@ const{handleSubmit, handleChange, values} =formik
     placeholder="Xin Nhập Ngày Khởi Chiếu"
     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
   />
+</div>
+<div className="sm:col-span-2">
+  <label htmlFor="maNhom" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mã Nhóm</label>
+  <select
+    value={values.maNhom}
+    onChange={handleChange}
+    name="maNhom"
+    id="maNhom"
+    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+  >
+    <option value="GP01">GP01</option>
+    <option value="GP02">GP02</option>
+    <option value="GP03">GP03</option>
+    <option value="GP03">GP04</option>
+    <option value="GP03">GP05</option>
+    <option value="GP03">GP06</option>
+    <option value="GP03">GP07</option>
+    <option value="GP03">GP08</option>
+    <option value="GP03">GP09</option>
+    <option value="GP10">GP10</option>
+  </select>
 </div>
 <div className="w-full flex items-center">
   <label htmlFor="dangChieu" className="me-2 flex items-center mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -191,6 +213,9 @@ const{handleSubmit, handleChange, values} =formik
       </div>
       <button type="submit" className="bg-green-600 px-5 py-2 text-white rounded-lg mt-4 mb-5 hover:bg-green-800">
         Add Movie
+      </button>
+      <button type="submit" className="ms-2 bg-orange-600 px-5 py-2 text-white rounded-lg mt-4 mb-5 hover:bg-orange-800">
+        Cập Nhật
       </button>
     </form>
   )
