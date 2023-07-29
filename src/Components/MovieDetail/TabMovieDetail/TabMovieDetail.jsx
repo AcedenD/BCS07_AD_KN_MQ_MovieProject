@@ -16,7 +16,9 @@ const TabMovieDetail = (props) => {
         </div>
       ),
       key: index,
-      children: <TabItem heThongRap={item} />,
+      children: (
+        <TabItem heThongRap={item} setMaLichChieu={props.setMaLichChieu} />
+      ),
     }));
   };
   return (

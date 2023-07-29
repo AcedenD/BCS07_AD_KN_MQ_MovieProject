@@ -12,6 +12,7 @@ import UserProfile from "./pages/UserProfile/UserProfile";
 import MovieManagement from "./pages/MovieManagement/MovieManagement";
 import ShowtimeManagement from "./pages/ShowtimeManagement/ShowtimeManagement";
 import SignUp from "./pages/SignUp/SignUp";
+import BookingTicket from "./Components/BookingTicket/BookingTicket";
 
 function App() {
   return (
@@ -20,7 +21,9 @@ function App() {
         <Route path="/" element={<UserTemplate />}>
           <Route index element={<HomePage />} />
           <Route path="login" element={<Login />} />
-          <Route path="/detail/:maPhim" element={<UseParam />} />
+          <Route path="/detail/:maPhim" element={<UseParam />}>
+            <Route path="booking/:maLichChieu" element={<BookingTicket />} />
+          </Route>
           <Route path="/userprofile" element={<UserProfile />} />
           <Route path="/signup" element={<SignUp />} />
         </Route>
@@ -28,7 +31,6 @@ function App() {
           <Route path="user" element={<UserManagement />} />
           <Route path="movie" element={<MovieManagement />} />
           <Route path="showtime" element={<ShowtimeManagement />} />
-
         </Route>
         <Route path="/admin-login" element={<LoginAdmin />}></Route>
         <Route path="*" element={<Page404 />} />
