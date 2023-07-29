@@ -25,10 +25,5 @@ export const movieServ = {
     return https.post("api/QuanLyPhim/ThemPhimUploadHinh", data);
 
   },
-    editMovie: (MovieData) => {
-    return https.get(
-      "/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung",
-      MovieData
-    );
-  },
+
 };

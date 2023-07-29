@@ -1,19 +1,34 @@
 import React from 'react'
-import { Form, Input, DatePicker, Switch, Upload, Button, Col, Row,Space } from 'antd';
+import { Form, Input, DatePicker, Switch, Upload, Button, Col, Row, Space, message  } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { useFormik } from 'formik';
+// import * as Yup from "yup";
+import { movieServ } from '../../services/movieServices';
+import { getAllMovie } from '../../redux/slices/movieSlice';
+import { useDispatch } from 'react-redux';
 
 
 
 
 const FormAddMovie = () => {
-//Form
-const normFile = (e) => {
-  if (Array.isArray(e)) {
-    return e;
-  }
-  return e && e.fileList;
-};
+  const [messageApi, contextHolder] = message.useMessage();
+  const dispatch = useDispatch();
+
+
+  // //Yup
+  // const validationSchema = Yup.object().shape({
+  //   maPhim: Yup.number()
+  //     .typeError('Mã Phim must be a number')
+  //     .positive('Mã Phim must be a positive number')
+  //     .integer('Mã Phim must be an integer')
+  //     .min(10000, 'Mã Phim must be at least 5 digits')
+  //     .max(99999, 'Mã Phim must be at most 5 digits')
+  //     .required('Mã Phim is required'),
+  //   ngayKhoiChieu: Yup.date().min(new Date(), 'Ngày Khởi Chiếu must be today or a future date').required('Ngày Khởi Chiếu is required'),
+  //   dangChieu: Yup.boolean().oneOf([true, false], 'You must select either Đang Chiếu or Sắp Chiếu').required('Đang Chiếu is required'),
+  //   sapChieu: Yup.boolean().oneOf([true, false], 'You must select either Đang Chiếu or Sắp Chiếu').required('Sắp Chiếu is required'),
+  //   danhGia: Yup.number().typeError('Đánh Giá must be a number').min(1, 'Đánh Giá must be at least 1').max(10, 'Đánh Giá must be at most 10').required('Đánh Giá is required'),
+  // });
 
 
   //Formik
@@ -30,9 +45,17 @@ const normFile = (e) => {
       hinhAnh: "",
     },
     onSubmit: async (values) => {
-      console.log(values)
-      // try {
-      //   const res = await movieServ.addMovie(values);
+      console.log(values);
+      try{
+        const res = await movieServ.addMovie(values);
+        messageApi.success("Thêm Phim Thành Công");
+        dispatch(getAllMovie());
+        formik.resetForm();}
+        catch (error) {
+          formik.resetForm();
+        }
+      
+
       //   messageApi.success("Thêm Phim Thành Công");
       //   dispatch(getAllMovie());
       //   formik.resetForm();
@@ -41,163 +64,135 @@ const normFile = (e) => {
       //   formik.resetForm();
       // }
     },
+    // validationSchema: validationSchema,
   });
 
+const{handleSubmit, handleChange, values} =formik
+
   return (
-    <div>
-     <Form layout="vertical" >
-      <Row gutter={16}>
-        <Col span={12}>
-          <Form.Item
-            name="maPhim"
-            label="Mã Phim"
-            rules={[
-              {
-                required: true,
-                message: "Xin Nhập Mã Phim",
-              },
-            ]}
-          >
-            <Input placeholder="Xin Nhập Mã Phim" />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item
-            name="tenPhim"
-            label="Tên Phim"
-            rules={[
-              {
-                required: true,
-                message: "Xin Nhập Tên Phim",
-              },
-            ]}
-          >
-            <Input placeholder="Xin Nhập Tên Phim" />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row gutter={16}>
-        <Col span={12}>
-          <Form.Item
-            name="moTa"
-            label="Mô Tả"
-            rules={[
-              {
-                required: true,
-                message: "Xin Nhập Mô Tả",
-              },
-            ]}
-          >
-            <Input.TextArea rows={4} placeholder="Xin Nhập Mô Tả" />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item
-            name="ngayKhoiChieu"
-            label="Ngày Khởi Chiếu"
-            rules={[
-              {
-                required: true,
-                message: "Please choose Ngày Khởi Chiếu",
-              },
-            ]}
-          >
-            <DatePicker style={{ width: "100%" }} />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row gutter={16}>
-        <Col span={8}>
-          <Form.Item name="dangChieu" label="Đang Chiếu" valuePropName="checked">
-            <Switch
-              checkedChildren={<span style={{ color: "#ffffff" }}>On</span>}
-              unCheckedChildren={<span style={{ color: "#ffffff" }}>Off</span>}
-              style={{
-                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-                backgroundColor: "#1890ff",
-              }}
-            />
-          </Form.Item>
-        </Col>
-        <Col span={8}>
-          <Form.Item name="sapChieu" label="Sắp Chiếu" valuePropName="checked">
-            <Switch
-              checkedChildren={<span style={{ color: "#ffffff" }}>On</span>}
-              unCheckedChildren={<span style={{ color: "#ffffff" }}>Off</span>}
-              style={{
-                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-                backgroundColor: "#1890ff",
-              }}
-            />
-          </Form.Item>
-        </Col>
-        <Col span={8}>
-          <Form.Item name="hot" label="Hot" valuePropName="checked">
-            <Switch
-              checkedChildren={<span style={{ color: "#ffffff" }}>On</span>}
-              unCheckedChildren={<span style={{ color: "#ffffff" }}>Off</span>}
-              style={{
-                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-                backgroundColor: "#1890ff",
-              }}
-            />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row gutter={16}>
-        <Col span={12}>
-          <Form.Item
-            name="danhGia"
-            label="Số Sao"
-            rules={[
-              {
-                required: true,
-                message: "Xin Nhập Số Sao",
-              },
-            ]}
-          >
-            <Input type="number" placeholder="Xin Nhập Số Sao" />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item
-            name="hinhAnh"
-            label="Hình ảnh"
-            valuePropName="fileList"
-            getValueFromEvent={normFile}
-            rules={[
-              {
-                required: true,
-                message: "Please upload Hình ảnh",
-              },
-            ]}
-          >
-            <Upload.Dragger>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">Click or drag file to this area to upload</p>
-              <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-            </Upload.Dragger>
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={24}>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Col>
-      </Row>
-      <Space>
-        <Button className='bg-green-600 text-white rounded-lg mb-5 '>
-            Thêm Phim
-            </Button>
-            </Space>
-    </Form>
-    </div>
+    <form action="#" onSubmit={handleSubmit}>
+      <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+        <div className="w-full">
+          <label htmlFor="maPhim" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mã Phim</label>
+          <input value={values.maPhim}
+              onChange={handleChange}
+              type="text"
+              name="maPhim"
+              placeholder="Xin Nhập Mã Phim"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"/>
+        </div>
+        <div className="w-full">
+          <label htmlFor="tenPhim" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tên Phim</label>
+          <input 
+          value={values.tenPhim}
+          onChange={handleChange}
+          type="text" 
+          name="tenPhim"
+          id="tenPhim"
+          placeholder="Xin Nhập Tên Phim"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" />
+        </div>
+        <div className="sm:col-span-2">
+  <label htmlFor="ngayKhoiChieu" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+    Ngày Khởi Chiếu
+  </label>
+  <input
+    value={values.ngayKhoiChieu}
+    onChange={handleChange}
+    type="date"
+    name="ngayKhoiChieu"
+    id="ngayKhoiChieu"
+    placeholder="Xin Nhập Ngày Khởi Chiếu"
+    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+  />
+</div>
+<div className="w-full flex items-center">
+  <label htmlFor="dangChieu" className="me-2 flex items-center mb-2 text-sm font-medium text-gray-900 dark:text-white">
+    Đang Chiếu
+  </label>
+  <input
+    checked={values.dangChieu}
+    onChange={(e) => {
+      handleChange(e);
+      formik.setFieldValue('dangChieu', e.target.checked);
+    }}
+    type="checkbox"
+    name="dangChieu"
+    id="dangChieu"
+    className="form-checkbox h-5 w-5 text-primary-600 dark:text-primary-400"
+  />
+
+
+  <label htmlFor="sapChieu" className="me-2 ms-5 flex items-center mb-2 text-sm font-medium text-gray-900 dark:text-white">
+    Sắp Chiếu
+  </label>
+  <input
+    checked={values.sapChieu}
+    onChange={(e) => {
+      handleChange(e);
+      formik.setFieldValue('sapChieu', e.target.checked);
+    }}
+    type="checkbox"
+    name="sapChieu"
+    id="sapChieu"
+    className="form-checkbox h-5 w-5 text-primary-600 dark:text-primary-400"
+  />
+
+
+  <label htmlFor="hot" className="me-2 flex items-center mb-2 text-sm font-medium text-gray-900 dark:text-white ms-5">
+    Hot
+  </label>
+  <input
+    checked={values.hot}
+    onChange={(e) => {
+      handleChange(e);
+      formik.setFieldValue('hot', e.target.checked);
+    }}
+    type="checkbox"
+    name="hot"
+    id="hot"
+    className="form-checkbox h-5 w-5 text-primary-600 dark:text-primary-400"
+  />
+</div>
+
+<div className="w-full">
+  <label htmlFor="hinhAnh" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+    Hình ảnh
+  </label>
+  <div className="relative">
+    <input
+      type="file"
+      accept="image/*"
+      name="hinhAnh"
+      id="hinhAnh"
+      onChange={handleChange}
+      className="hinhAnh"
+    />
+   
+  </div>
+</div>
+
+<div className="sm:col-span-2">
+          <label htmlFor="danhGia" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Đánh Giá (1-10)</label>
+          <input 
+          value={values.danhGia}
+          onChange={handleChange}
+          type="number" name="danhGia" id="danhGia" 
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"/>
+        </div>
+
+        <div className="sm:col-span-2">
+          <label htmlFor="moTa" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mô Tả</label>
+          <textarea 
+          value={values.moTa}
+          onChange={handleChange}
+          id="moTa" rows={5} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Mô tả nội dung phim" defaultValue={""} />
+        </div>
+      </div>
+      <button type="submit" className="bg-green-600 px-5 py-2 text-white rounded-lg mt-4 mb-5 hover:bg-green-800">
+        Add Movie
+      </button>
+    </form>
   )
 }
 
