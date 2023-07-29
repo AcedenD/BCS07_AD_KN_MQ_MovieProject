@@ -45,7 +45,11 @@ const FormAddUser = (props) => {
         formik.resetForm();
       } catch (error) {
         console.log(error);
-        messageApi.error(error.response.data.content);
+        messageApi.error(
+          error.response.data.content
+            ? error.response.data.content
+            : "Please reload before adding user"
+        );
         formik.resetForm();
       }
     },
