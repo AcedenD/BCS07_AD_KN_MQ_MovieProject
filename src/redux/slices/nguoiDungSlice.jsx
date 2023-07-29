@@ -21,7 +21,7 @@ export const nguoiDungSlice = createSlice({
   reducers: {
     setDuLieuHoTen: (state, action) => {
       // check hoTen have value, if doesn't have then set value
-      console.log(action);
+      // console.log(action);
       if (state.hoTen == null) {
         state.hoTen = action.payload;
       }

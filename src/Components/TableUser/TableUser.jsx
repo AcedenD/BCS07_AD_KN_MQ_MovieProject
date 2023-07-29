@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { Space, Table, Tag } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { nguoiDungServ } from "../../services/nguoiDungServices";
 import { getAllUser } from "../../redux/slices/nguoiDungSlice";
+import { nguoiDungServ } from "../../services/nguoiDungServices";
 
 // id, ho ten, email, sdt, ma loai nguoi dung, action
 

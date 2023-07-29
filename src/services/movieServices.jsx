@@ -16,9 +16,21 @@ export const movieServ = {
       `/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${maPhim}`
     );
   },
+
+    deleteMovie: (maPhim) => {
+    return https.delete(
+      `api/QuanLyPhim/XoaPhim?MaPhim=${maPhim}`
+    );
+  },
+    addMovie: (data) => {
+    return https.post("api/QuanLyPhim/ThemPhimUploadHinh", data);
+
+  },
+
   getBookingList: (maLichChieu) => {
     return https.get(
       `/api/QuanLyDatVe/LayDanhSachPhongVe?MaLichChieu=${maLichChieu}`
     );
   },
+
 };
