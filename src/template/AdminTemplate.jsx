@@ -12,7 +12,6 @@ import { layDuLieuLocal } from "../utils/localStore";
 
 const { Header, Sider, Content } = Layout;
 
-
 const AdminTemplate = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -34,7 +33,22 @@ const AdminTemplate = () => {
   return (
     <Layout className="min-h-screen">
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" />
+        <div className="demo-logo-vertical bg-[#122941] border-b border-[#21476f]">
+          <NavLink
+            className="text-2xl text-white font-bold text-center w-full py-4 px-2 flex items-center justify-center hover:text-white"
+            to="/"
+          >
+            <img
+              src="https://flowbite.com/docs/images/logo.svg"
+              className="h-8"
+              alt="Flowbite Logo"
+            />
+            {/* <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+              CyberMovie
+            </span> */}
+            {collapsed ? <></> : <span className="ml-3">CyberMovie</span>}
+          </NavLink>
+        </div>
         <Menu
           theme="dark"
           mode="inline"
@@ -50,11 +64,11 @@ const AdminTemplate = () => {
               icon: <i className="fa-solid fa-film" />,
               label: <NavLink to="/admin/movie">Movie</NavLink>,
             },
-            {
-              key: "3",
-              icon: <i className="fa-regular fa-calendar-days" />,
-              label: <NavLink to="/admin/showtime">Show Time</NavLink>,
-            },
+            // {
+            //   key: "3",
+            //   icon: <i className="fa-regular fa-calendar-days" />,
+            //   label: <NavLink to="/admin/showtime">Show Time</NavLink>,
+            // },
           ]}
         />
       </Sider>

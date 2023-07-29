@@ -58,7 +58,7 @@ const UserManagement = () => {
   return (
     <div>
       <button
-        className=" bg-green-600 text-white py-2 px-5 rounded-lg mb-5"
+        className=" bg-green-600 text-white py-2 px-5 rounded-lg mb-5 hover:bg-green-700 duration-500"
         onClick={showDrawer}
       >
         Thêm mới
