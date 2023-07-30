@@ -1,15 +1,37 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Space, Table, Tag } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUser } from "../../redux/slices/nguoiDungSlice";
 import { nguoiDungServ } from "../../services/nguoiDungServices";
+import { Input, message, Popconfirm, Button } from "antd";
 
 // id, ho ten, email, sdt, ma loai nguoi dung, action
-
 
 const TableUser = (props) => {
   const { users } = useSelector((state) => state.nguoiDung);
   const dispatch = useDispatch();
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const confirm = (e) => {
+    console.log(e);
+    nguoiDungServ
+      .deleteUser(e.taiKhoan)
+      .then((res) => {
+        // alert("delete successful");
+        messageApi.success("Xoá thành công");
+        dispatch(getAllUser());
+      })
+      .catch((err) => {
+        console.log(err);
+        // alert("There is a problem deleting");
+        messageApi.error("Xoá thất bại");
+      });
+  };
+  const cancel = (e) => {
+    console.log(e);
+    message.error("Không xoá nữa");
+  };
+
   // console.log(props);
   console.log(users);
 
@@ -58,24 +80,27 @@ const TableUser = (props) => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <button
-            className="py-2 px-5 bg-red-600 text-white rounded-lg hover:bg-red-700 duration-500"
-            // create a Popconfirm to ensure user dont accidentally delete user
-            onClick={() => {
-              nguoiDungServ
-                .deleteUser(record.taiKhoan)
-                .then((res) => {
-                  alert("delete successful");
-                  dispatch(getAllUser());
-                })
-                .catch((err) => {
-                  console.log(err);
-                  alert("There is a problem deleting");
-                });
+          <Popconfirm
+            title="Xác nhận xoá?"
+            description="Bạn có chắc muốn xoá người dùng này?"
+            onConfirm={() => {
+              confirm(record);
             }}
+            onCancel={cancel}
+            okText="Xoá"
+            cancelText="Không"
+            okType="danger"
           >
-            Xoá
-          </button>
+            <button
+              className="py-2 px-5 bg-red-600 text-white rounded-lg hover:bg-red-700 duration-500"
+              // create a Popconfirm to ensure user dont accidentally delete user
+              // onClick={() => {
+              //   confirm(record);
+              // }}
+            >
+              Xoá
+            </button>
+          </Popconfirm>
 
           <button
             className="py-2 px-5 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 duration-500"
@@ -100,7 +125,17 @@ const TableUser = (props) => {
     };
   });
 
-  return <Table columns={columns} dataSource={newUser.length > 0 && newUser} />;
+  return (
+    <div>
+      {contextHolder}
+      <Table
+        className="w-fit"
+        columns={columns}
+        dataSource={newUser.length > 0 && newUser}
+        messageApi={messageApi}
+      />
+    </div>
+  );
 };
 
 export default TableUser;
