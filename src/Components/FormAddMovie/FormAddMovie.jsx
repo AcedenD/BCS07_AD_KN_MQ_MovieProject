@@ -2,38 +2,42 @@ import React, { useEffect } from 'react'
 import { Form, Input, DatePicker, Switch, Upload, Button, Col, Row, Space, message  } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { addMovieSchema } from "../../utils/addMovieSchema";
-import * as yup from "yup";
-import { useFormik } from 'formik';
+// import * as yup from "yup";
+import { Formik, useFormik } from 'formik';
 import { movieServ } from '../../services/movieServices';
 import { getAllMovie } from '../../redux/slices/movieSlice';
 import { useDispatch } from 'react-redux';
+import moment from 'moment';
 
-
-//
 
 const FormAddMovie = ({formData}) => {
   const [messageApi, contextHolder] = message.useMessage();
   const dispatch = useDispatch();
-
+const handleChangeDatePicker =(value) =>{
+  let ngayKhoiChieu = moment(value).format('DD/MM/YYYY');
+formik.setFieldValue('ngayKhoiChieu',ngayKhoiChieu)
+}
 
   // //Yup
-  const validationSchema = yup.object().shape({
-    maPhim: yup.number()
-      .typeError('Mã Phim must be a number')
-      .positive('Mã Phim must be a positive number')
-      .integer('Mã Phim must be an integer')
-      .min(10000, 'Mã Phim must be at least 5 digits')
-      .max(99999, 'Mã Phim must be at most 5 digits')
-      .required('Mã Phim is required'),
-    ngayKhoiChieu: yup.date().min(new Date(), 'Ngày khởi chiếu phải ở tương lai'),
-    danhGia: yup.number().typeError('Đánh Giá must be a number').min(1, 'Đánh Giá must be at least 1').max(10, 'Đánh Giá must be at most 10').required('Đánh Giá is required'),
-    hinhAnh: yup.mixed().required('Please select a picture').test(
-      'fileFormat',
-      'Invalid file format',
-      value => value && value.type.startsWith('image/'))
-  });
+  // const validationSchema = yup.object().shape({
+  //   maPhim: yup.number()
+  //     .typeError('Mã Phim must be a number')
+  //     .positive('Mã Phim must be a positive number')
+  //     .integer('Mã Phim must be an integer')
+  //     .min(10000, 'Mã Phim must be at least 5 digits')
+  //     .max(99999, 'Mã Phim must be at most 5 digits')
+  //     .required('Mã Phim is required'),
+  //   ngayKhoiChieu: yup.date().min(new Date(), 'Ngày khởi chiếu phải ở tương lai'),
+  //   danhGia: yup.number().typeError('Đánh Giá must be a number').min(1, 'Đánh Giá must be at least 1').max(10, 'Đánh Giá must be at most 10').required('Đánh Giá is required'),
+  //   hinhAnh: yup.mixed().required('Please select a picture').test(
+  //     'fileFormat',
+  //     'Invalid file format',
+  //     value => value && value.type.startsWith('image/'))
+  // });
 
   //Formik
+ 
+      
   const formik = useFormik({
     initialValues: {
 
@@ -41,15 +45,26 @@ const FormAddMovie = ({formData}) => {
     tenPhim: formData.tenPhim || "",
     moTa: formData.moTa || "",
     ngayKhoiChieu: formData.ngayKhoiChieu || "",
-    maNhom: formData.maNhom || "",
-    dangChieu: formData.dangChieu || "",
-    sapChieu: formData.sapChieu || "",
-    hot: formData.hot || "",
-    danhGia: formData.danhGia || "",
-    hinhAnh: formData.hinhAnh || "",
+    maNhom: "GP03",
+    dangChieu: formData.dangChieu || false,
+    sapChieu: formData.sapChieu || false,
+    hot: formData.hot || false,
+    danhGia: formData.danhGia || 0,
+    hinhAnh:{}
     },
     onSubmit: async (values) => {
-      console.log(values);
+      console.log(values)
+
+      let formData = new FormData();
+      for(let key in values) {
+        if (key!== 'hinhAnh'){
+          formData.append (key, values[key]);
+      } else{
+        formData.append('file', values.hinhAnh, values.hinhAnh.name);
+      }}
+      console.log('formData', formData.get('File'));
+
+
       try{
         const res = await movieServ.addMovie(values);
         messageApi.success("Thêm Phim Thành Công");
@@ -64,7 +79,7 @@ const FormAddMovie = ({formData}) => {
           formik.resetForm();
         }
     },
-    validationSchema: addMovieSchema,
+    // validationSchema: addMovieSchema,
   });
 
   const capNhat = async () => {
@@ -78,7 +93,11 @@ const FormAddMovie = ({formData}) => {
       formik.resetForm();
     }
   };
-
+  const handleChangeFile =(e) =>{
+    let file  = e.target.files[0];
+    console.log ('file',file);
+   return (file) =>{formik.setFieldValue('hinhAnh',file)}
+  }
 const{handleSubmit, handleChange, values} =formik
 
   return <>
@@ -109,48 +128,23 @@ const{handleSubmit, handleChange, values} =formik
   <label htmlFor="ngayKhoiChieu" className="block mb-2 text-sm font-medium text-gray-900">
     Ngày Khởi Chiếu
   </label>
-  <input
-    value={values.ngayKhoiChieu}
-    onChange={handleChange}
-    type="date"
-    name="ngayKhoiChieu"
-    id="ngayKhoiChieu"
-    placeholder="Xin Nhập Ngày Khởi Chiếu"
-    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
-  />
+  <DatePicker
+           // Convert date to moment object for DatePicker
+          format="DD/MM/YYYY" // Set the desired format for display
+          name="ngayKhoiChieu"
+          id="ngayKhoiChieu"
+          placeholder="Xin Nhập Ngày Khởi Chiếu"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+          onChange={handleChangeDatePicker}/>
 </div>
-<div className="sm:col-span-2">
-  <label htmlFor="maNhom" className="block mb-2 text-sm font-medium text-gray-900 ">Mã Nhóm</label>
-  <select
-    value={values.maNhom}
-    onChange={handleChange}
-    name="maNhom"
-    id="maNhom"
-    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
-  >
-    <option value="GP01">GP01</option>
-    <option value="GP02">GP02</option>
-    <option value="GP03">GP03</option>
-    <option value="GP03">GP04</option>
-    <option value="GP03">GP05</option>
-    <option value="GP03">GP06</option>
-    <option value="GP03">GP07</option>
-    <option value="GP03">GP08</option>
-    <option value="GP03">GP09</option>
-    <option value="GP10">GP10</option>
-  </select>
-</div>
+
 <div className="w-full flex items-center">
   <label htmlFor="dangChieu" className="me-2 flex items-center mb-2 text-sm font-medium text-gray-900">
     Đang Chiếu
   </label>
-  <input
+  <Switch
     checked={values.dangChieu}
-    onChange={(e) => {
-      handleChange(e);
-      formik.setFieldValue('dangChieu', e.target.checked);
-    }}
-    type="checkbox"
+    onChange={(value)=>{formik.setFieldValue('dangChieu',value)}}
     name="dangChieu"
     id="dangChieu"
     className="form-checkbox h-5 w-5 text-primary-600 "
@@ -160,29 +154,22 @@ const{handleSubmit, handleChange, values} =formik
   <label htmlFor="sapChieu" className="me-2 ms-5 flex items-center mb-2 text-sm font-medium text-gray-900">
     Sắp Chiếu
   </label>
-  <input
+  <Switch
+
     checked={values.sapChieu}
-    onChange={(e) => {
-      handleChange(e);
-      formik.setFieldValue('sapChieu', e.target.checked);
-    }}
-    type="checkbox"
+    onChange={(value)=>{formik.setFieldValue('sapChieu',value)}}
     name="sapChieu"
     id="sapChieu"
     className="form-checkbox h-5 w-5 text-primary-600 "
   />
 
 
-  <label htmlFor="hot" className="me-2 flex items-center mb-2 text-sm font-medium text-gray-900">
+  <label htmlFor="hot" className="me-2 ms-3 flex items-center mb-2 text-sm font-medium text-gray-900">
     Hot
   </label>
-  <input
+  <Switch
     checked={values.hot}
-    onChange={(e) => {
-      handleChange(e);
-      formik.setFieldValue('hot', e.target.checked);
-    }}
-    type="checkbox"
+    onChange={(value)=>{formik.setFieldValue('hot',value)}}
     name="hot"
     id="hot"
     className="form-checkbox h-5 w-5 text-primary-600 "
@@ -199,16 +186,17 @@ const{handleSubmit, handleChange, values} =formik
       accept="image/*"
       name="hinhAnh"
       id="hinhAnh"
-      onChange={handleChange}
-      className="hinhAnh"
+      onChange={handleChangeFile}
     />
-   
   </div>
+  <img width={20} src="" alt="" />
 </div>
 
 <div className="sm:col-span-2">
-          <label htmlFor="danhGia" className="block mb-2 text-sm font-medium text-gray-900">Đánh Giá (1-10)</label>
+          <label htmlFor="danhGia" className="block mb-2 text-sm font-medium text-gray-900">Đánh Giá (0-10)</label>
           <input 
+          min={0}
+          max={10}
           value={values.danhGia}
           onChange={handleChange}
           type="number" name="danhGia" id="danhGia" 
