@@ -5,13 +5,18 @@ import TableMovie from '../../Components/Table Movie/TableMovie';
 import FormAddMovie from '../../Components/FormAddMovie/FormAddMovie';
 import AdminSearch from '../../Components/AdminSearch/AdminSearch';
 import { Drawer } from 'antd';
-import FormAddShowTime from '../../Components/FormAddShowTime/FormAddShowTime';
 
 const MovieManagement = () => {
   const [movies, setMovies] = useState([]);
+  
   const dispatch = useDispatch();
     //edit
     const [formData, setFormData] = useState({});
+    const { phimData } = useSelector((state) => state.movies);
+    const [values, setValues] = useState({});
+    const loadMovie = (movie) => {
+      setValues(movie);
+    };
 
   useEffect(() => {
     dispatch(getAllMovie())
@@ -24,17 +29,12 @@ const MovieManagement = () => {
     setSearchKeyword(value);
   };
 
-  //Drawer
+  //Drawers
+  
   const [open, setOpen] = useState(false);
 
   const showDrawer = (movieData) => {
-    //
     setFormData(movieData);
-    setOpen(true);
-  };
-  const showDrawer2 = (timeData) => {
-    //
-    setFormData(timeData);
     setOpen(true);
   };
 
@@ -43,26 +43,22 @@ const MovieManagement = () => {
     setFormData({});
   };
 
-
-
   return (<div >
-    <button
+     <button
        className='bg-green-600 px-5 py-2 text-white rounded-lg mb-5 'onClick={showDrawer} >
       <i class="fa-solid fa-plus"></i>  Thêm Phim
       </button>
-    
-    <AdminSearch onSearch={handleSearch} />
-
+      <AdminSearch onSearch={handleSearch} />
     <TableMovie searchKeyword={searchKeyword} showDrawer={showDrawer} />
-    <Drawer
+      <Drawer
         title="Phim"
-
         width={720}
         onClose={onClose}
         open={open}
         bodyStyle={{ paddingBottom: 80 }}>
-       <FormAddShowTime formData={formData}/>
-      </Drawer>
+    <FormAddMovie formData={formData} movie={values} open={open}/>
+    </Drawer>
+
      </div>)
 }
 export default MovieManagement
