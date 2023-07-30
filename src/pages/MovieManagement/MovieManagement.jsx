@@ -52,18 +52,11 @@ const MovieManagement = () => {
       </button>
     
     <AdminSearch onSearch={handleSearch} />
-    <TableMovie searchKeyword={searchKeyword} showDrawer2={showDrawer2}  showDrawer={showDrawer}/>
+
+    <TableMovie searchKeyword={searchKeyword} showDrawer={showDrawer} />
     <Drawer
-        title="Thông Tin Phim"
-        width={720}
-        onClose={onClose}
-        open={open}
-        bodyStyle={{ paddingBottom: 80 }}>
-       <FormAddMovie formData={formData}/>
-      </Drawer>
-    <Drawer
-        title="Tạo Lịch Chiếu"
-        placement='bottom'
+        title="Phim"
+
         width={720}
         onClose={onClose}
         open={open}

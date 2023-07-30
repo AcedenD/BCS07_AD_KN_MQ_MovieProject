@@ -13,6 +13,7 @@ import MovieManagement from "./pages/MovieManagement/MovieManagement";
 import ShowtimeManagement from "./pages/ShowtimeManagement/ShowtimeManagement";
 import SignUp from "./pages/SignUp/SignUp";
 import BookingTicket from "./Components/BookingTicket/BookingTicket";
+import FormAddLich from "./Components/FormAddLich/FormAddLich";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="user" element={<UserManagement />} />
           <Route path="movie" element={<MovieManagement />} />
           <Route path="showtime" element={<ShowtimeManagement />} />
+          <Route path="showtime/add" element={<FormAddLich />} />
         </Route>
         <Route path="/admin-login" element={<LoginAdmin />}></Route>
         <Route path="*" element={<Page404 />} />

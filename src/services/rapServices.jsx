@@ -9,4 +9,9 @@ export const rapServ = {
       `/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${maHeThong}&maNhom=GP03`
     );
   },
+  getAllCumRap: (maHeThong) =>{
+    return https.get(
+      `api/QuanLyRap/LayThongTinCumRapTheoHeThong?maHeThongRap=${maHeThong}`
+    );    
+  }
 };

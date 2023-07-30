@@ -23,6 +23,10 @@ export const movieServ = {
   addMovie: (data) => {
     return https.post("api/QuanLyPhim/ThemPhimUploadHinh", data);
   },
+    updateMovie: (data) => {
+    return https.post("api/QuanLyPhim/CapNhatPhimUpload", data);
+
+  },
 
   getBookingList: (maLichChieu) => {
     return https.get(
