@@ -50,11 +50,7 @@ const AdminTemplate = () => {
               icon: <i className="fa-solid fa-film" />,
               label: <NavLink to="/admin/movie">Movie</NavLink>,
             },
-            {
-              key: "3",
-              icon: <i className="fa-regular fa-calendar-days" />,
-              label: <NavLink to="/admin/showtime">Show Time</NavLink>,
-            },
+            
           ]}
         />
       </Sider>
