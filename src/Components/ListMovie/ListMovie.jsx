@@ -32,7 +32,7 @@ const ListMovie = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto py-10">
-      <h2 className="text-3xl font-bold">Danh sach phim</h2>
+      <h2 className="text-3xl font-bold mb-4">Danh sách phim</h2>
       <div className="grid grid-cols-4 gap-5">
         {movies.map((item, index) => {
           return (
@@ -46,7 +46,7 @@ const ListMovie = () => {
                 <h3 className="font-bold text-xl ">
                   <span className="text-white py-1 px-2 bg-orange-500 rounded-md mr-3">
                     C18
-                  </span>{" "}
+                  </span>
                   {item.tenPhim}
                 </h3>
                 <p className="line-clamp-2 mt-2"> {item.moTa}</p>
