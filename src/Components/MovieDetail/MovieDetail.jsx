@@ -79,9 +79,9 @@ const MovieDetail = (props) => {
                   Thời lượng:
                   <span className="font-normal ml-3">
                     {showtime[0]
-                      ? showtime[0].cumRapChieu[0].lichChieuPhim[0].thoiLuong
+                      ? showtime[0].cumRapChieu[0].lichChieuPhim[0]
+                          .thoiLuong && <span className="ml-2">phút</span>
                       : "Chưa rõ"}
-                    <span className="ml-2">phút</span>
                   </span>
                 </h3>
                 <h3 className="mt-5 text-sm font-bold text-gray-900">
@@ -106,7 +106,9 @@ const MovieDetail = (props) => {
             </button>
             <NavLink
               to={maLichChieu ? `booking/${maLichChieu}` : ""}
-              className="rounded-md border border-transparent bg-indigo-600 px-5 py-3 mt-5 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className={`rounded-md border border-transparent bg-indigo-600 px-5 py-3 mt-5 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
+                !maLichChieu ? "disabled" : ""
+              }`}
             >
               Mua vé ngay
             </NavLink>
@@ -130,7 +132,18 @@ const MovieDetail = (props) => {
           </video>
         </Modal>
       </div>
-      <TabMovieDetail showtime={showtime} setMaLichChieu={setMaLichChieu} />
+      {showtime.length !== 0 ? (
+        <div>
+          <p className="text-red-500 italic mt-8 ml-8">
+            * Vui lòng chọn cụm rạp và giờ chiếu trước khi đặt vé!
+          </p>
+          <TabMovieDetail showtime={showtime} setMaLichChieu={setMaLichChieu} />
+        </div>
+      ) : (
+        <p className="text-red-500 italic mt-8 ml-8">
+          * Hiện chưa có lịch chiếu
+        </p>
+      )}
     </div>
   );
 };

@@ -25,12 +25,18 @@ const Seats = (props) => {
           <div className="row" key={index}>
             {item.map((ghe) => {
               return (
-                <div
-                  className={`seat ${ghe.loaiGhe === "vip" ? "vip" : ""} ${
-                    ghe.daDat ? "sold" : ""
-                  }`}
+                <button
+                  className={`seat ${ghe.loaiGhe === "Vip" ? "vip" : ""} ${
+                    props.selectedSeat?.find((ma) => ma.maGhe === ghe.maGhe)
+                      ? "selected"
+                      : ""
+                  } ${ghe.daDat ? "sold" : ""}`}
+                  disabled={ghe.daDat}
                   key={ghe.maGhe}
-                ></div>
+                  onClick={() => {
+                    props.handleClickSelectSeat(ghe.maGhe);
+                  }}
+                ></button>
               );
             })}
           </div>
