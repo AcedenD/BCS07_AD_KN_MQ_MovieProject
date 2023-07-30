@@ -5,10 +5,13 @@ import TableMovie from '../../Components/Table Movie/TableMovie';
 import FormAddMovie from '../../Components/FormAddMovie/FormAddMovie';
 import AdminSearch from '../../Components/AdminSearch/AdminSearch';
 import { Drawer } from 'antd';
+import FormAddShowTime from '../../Components/FormAddShowTime/FormAddShowTime';
 
 const MovieManagement = () => {
   const [movies, setMovies] = useState([]);
   const dispatch = useDispatch();
+    //edit
+    const [formData, setFormData] = useState({});
 
   useEffect(() => {
     dispatch(getAllMovie())
@@ -24,13 +27,23 @@ const MovieManagement = () => {
   //Drawer
   const [open, setOpen] = useState(false);
 
-  const showDrawer = () => {
+  const showDrawer = (movieData) => {
+    //
+    setFormData(movieData);
+    setOpen(true);
+  };
+  const showDrawer2 = (timeData) => {
+    //
+    setFormData(timeData);
     setOpen(true);
   };
 
   const onClose = () => {
     setOpen(false);
+    setFormData({});
   };
+
+
 
   return (<div >
     <button
@@ -39,14 +52,16 @@ const MovieManagement = () => {
       </button>
     
     <AdminSearch onSearch={handleSearch} />
+
     <TableMovie searchKeyword={searchKeyword} showDrawer={showDrawer} />
     <Drawer
         title="Phim"
+
         width={720}
         onClose={onClose}
         open={open}
         bodyStyle={{ paddingBottom: 80 }}>
-       <FormAddMovie/>
+       <FormAddShowTime formData={formData}/>
       </Drawer>
      </div>)
 }

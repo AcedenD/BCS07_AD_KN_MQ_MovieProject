@@ -17,14 +17,11 @@ export const movieServ = {
     );
   },
 
-    deleteMovie: (maPhim) => {
-    return https.delete(
-      `api/QuanLyPhim/XoaPhim?MaPhim=${maPhim}`
-    );
+  deleteMovie: (maPhim) => {
+    return https.delete(`api/QuanLyPhim/XoaPhim?MaPhim=${maPhim}`);
   },
-    addMovie: (data) => {
+  addMovie: (data) => {
     return https.post("api/QuanLyPhim/ThemPhimUploadHinh", data);
-
   },
     updateMovie: (data) => {
     return https.post("api/QuanLyPhim/CapNhatPhimUpload", data);
@@ -36,5 +33,7 @@ export const movieServ = {
       `/api/QuanLyDatVe/LayDanhSachPhongVe?MaLichChieu=${maLichChieu}`
     );
   },
-
+  postBookedTicket: (data) => {
+    return https.post("/api/QuanLyDatVe/DatVe", data);
+  },
 };

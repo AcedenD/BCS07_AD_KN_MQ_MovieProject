@@ -7,9 +7,11 @@ import { NavLink } from 'react-router-dom';
 
 
 //Mã Phim, Hình Ảnh, Tên Phim, Mô Tả, Hành Động
+
 const TableMovie = ({ searchKeyword, showDrawer }) => {
 const { phimData } = useSelector((state) => state.movies);
   // console.log(phimData);
+
 
   const filteredMovies = phimData.filter((movie) =>
     movie.tenPhim.toLowerCase().includes(searchKeyword.toLowerCase())
@@ -63,6 +65,7 @@ const { phimData } = useSelector((state) => state.movies);
       render: (text) => (
         <span title={text}>{shortenText(text, 45)}</span>
       ),
+
     },
     {
       title: 'Action',
@@ -98,6 +101,7 @@ const { phimData } = useSelector((state) => state.movies);
           >
             <i className="fa-solid fa-calendar-days"></i>
           </NavLink>
+
 
         </Space>
       ),
