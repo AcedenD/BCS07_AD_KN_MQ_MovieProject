@@ -23,9 +23,8 @@ export const movieServ = {
   addMovie: (data) => {
     return https.post("api/QuanLyPhim/ThemPhimUploadHinh", data);
   },
-    updateMovie: (data) => {
+  updateMovie: (data) => {
     return https.post("api/QuanLyPhim/CapNhatPhimUpload", data);
-
   },
 
   getBookingList: (maLichChieu) => {
@@ -35,5 +34,9 @@ export const movieServ = {
   },
   postBookedTicket: (data) => {
     return https.post("/api/QuanLyDatVe/DatVe", data);
+  },
+
+  addLichChieu: (data) => {
+    return https.post("api/QuanLyDatVe/TaoLichChieu", data);
   },
 };
