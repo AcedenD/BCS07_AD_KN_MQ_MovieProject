@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { rapServ } from './../../services/rapServices';
 import { movieServ } from '../../services/movieServices';
+import { Formik, Form, Field } from 'formik';
 
 const FormAddLich = () => {
   
@@ -124,7 +125,7 @@ console.log (maPhim)
       />
       </div>
       <button
-       className='bg-green-600 px-5 py-2 text-white rounded-lg mb-5 '>
+       className='bg-green-600 px-5 py-2 text-white rounded-lg mb-5 ' type='submit'>
       <i class="fa-solid fa-plus"></i>  Thêm Lịch Chiếu
       </button>
       </div>

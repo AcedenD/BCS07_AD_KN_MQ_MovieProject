@@ -26,8 +26,12 @@ export const movieServ = {
     return https.post("api/QuanLyPhim/ThemPhimUploadHinh", data);
 
   },
-    UpdateMovie: (data) => {
+    updateMovie: (data) => {
     return https.post("api/QuanLyPhim/CapNhatPhimUpload", data);
+
+  },
+    addLichChieu: (data) => {
+    return https.post("api/QuanLyDatVe/TaoLichChieu", data);
 
   },
 
