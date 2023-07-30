@@ -8,7 +8,7 @@ import { NavLink } from 'react-router-dom';
 
 //Mã Phim, Hình Ảnh, Tên Phim, Mô Tả, Hành Động
 const TableMovie = ({ searchKeyword, showDrawer }) => {
-  const { phimData } = useSelector((state) => state.movies);
+const { phimData } = useSelector((state) => state.movies);
   // console.log(phimData);
 
   const filteredMovies = phimData.filter((movie) =>
@@ -92,7 +92,7 @@ const TableMovie = ({ searchKeyword, showDrawer }) => {
           </button>
 
           <NavLink
-            to={`/admin/showtime`} // Replace the path with the correct route for your showtime page
+            to={`/admin/showtime/add?movieId=${record.maPhim}`} // Pass movie ID and name as URL parameters
             className="py-2 px-5 bg-green-600 text-white rounded-lg hover:bg-green-700 suration-500"
             title="Tạo Lịch Chiếu"
           >
