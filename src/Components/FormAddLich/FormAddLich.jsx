@@ -134,6 +134,7 @@ console.log (maPhim)
     // };
     const addLichChieu = async () => {
       try {
+        const maPhim = searchParams.get('movieId');
         const formData = {
           maPhim: maPhim,
           ngayChieuGioChieu: ngayChieuGioChieu,
@@ -142,9 +143,11 @@ console.log (maPhim)
         };
   console.log(formData)
         const response = await movieServ.addLichChieu(formData);
+        console.log(formData)
         console.log(response);
       } catch (error) {
         console.log(error);
+        
       }
     };
   
@@ -214,7 +217,7 @@ console.log (maPhim)
       </button>
       </div>
     </form>
-    {/* <p>maphim{maPhim}ngay{ngayChieuGioChieu}cumrap{selectedRap}gia{giaVe}</p> */}
+    <p>maphim: {maPhim}  Ngay: {ngayChieuGioChieu}  Cumrap: {selectedRap}  Gia: {giaVe}</p>
 </div>
 
   );
