@@ -23,8 +23,8 @@ export const movieServ = {
   addMovie: (formData) => {
     return https.post("api/QuanLyPhim/ThemPhimUploadHinh", formData);
   },
-    updateMovie: (data) => {
-    return https.post("api/QuanLyPhim/CapNhatPhimUpload", data);
+    updateMovie: (formData) => {
+    return https.post("api/QuanLyPhim/CapNhatPhimUpload", formData);
 
   },
   addLichChieu: (data) => {

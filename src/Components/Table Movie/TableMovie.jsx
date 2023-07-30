@@ -90,12 +90,16 @@ const { phimData } = useSelector((state) => state.movies);
               }
             }}><i class="fa-solid fa-trash-can"></i></button>
 
-          <button onClick={() => showDrawer(record)} className='py-2 px-5 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 suration-500' title="Sửa">
-            <i class="fa-solid fa-pen-to-square"></i>
-          </button>
+          <NavLink
+            to={`/admin/movie/edit?movieId=${record.maPhim}`} 
+            className='py-2 px-5 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 suration-500'
+            title="Sửa"
+          >
+             <i class="fa-solid fa-pen-to-square"></i>
+          </NavLink>
 
           <NavLink
-            to={`/admin/showtime/add?movieId=${record.maPhim}`} // Pass movie ID and name as URL parameters
+            to={`/admin/showtime/add?movieId=${record.maPhim}`} 
             className="py-2 px-5 bg-green-600 text-white rounded-lg hover:bg-green-700 suration-500"
             title="Tạo Lịch Chiếu"
           >
