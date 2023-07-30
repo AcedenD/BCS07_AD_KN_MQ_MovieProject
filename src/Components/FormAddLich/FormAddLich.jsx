@@ -140,7 +140,7 @@ console.log (maPhim)
           maRap: selectedRap.value,
           giaVe: giaVe,
         };
-  
+  console.log(formData)
         const response = await movieServ.addLichChieu(formData);
         console.log(response);
       } catch (error) {
@@ -214,7 +214,7 @@ console.log (maPhim)
       </button>
       </div>
     </form>
-    {/* <p>maphim{maPhim}ngay{ngayChieuGioChieu}cumrap{selectedRap}gia{giaVe}</p> */}
+    <p>maphim{maPhim}ngay{ngayChieuGioChieu}cumrap{selectedRap}gia{giaVe}</p>
 </div>
 
   );

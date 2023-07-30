@@ -30,10 +30,6 @@ export const movieServ = {
     return https.post("api/QuanLyPhim/CapNhatPhimUpload", data);
 
   },
-    addLichChieu: (data) => {
-    return https.post("api/QuanLyDatVe/TaoLichChieu", data);
-
-  },
 
   getBookingList: (maLichChieu) => {
     return https.get(
