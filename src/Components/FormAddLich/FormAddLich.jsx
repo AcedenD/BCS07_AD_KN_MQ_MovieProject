@@ -217,7 +217,7 @@ console.log (maPhim)
       </button>
       </div>
     </form>
-    <p>maphim: {maPhim}  Ngay: {ngayChieuGioChieu}  Cumrap: {selectedRap}  Gia: {giaVe}</p>
+    {/* <p>maphim: {maPhim}  Ngay: {ngayChieuGioChieu}  Cumrap: {selectedRap}  Gia: {giaVe}</p> */}
 </div>
 
   );

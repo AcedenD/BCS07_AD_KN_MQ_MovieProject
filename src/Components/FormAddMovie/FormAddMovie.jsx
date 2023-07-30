@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Form, Input, DatePicker, Switch, Upload, Button, Col, Row, Space, message  } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
+import { addMovieSchema } from "../../utils/addMovieSchema";
+import * as yup from "yup";
 import { useFormik } from 'formik';
-// import * as Yup from "yup";
 import { movieServ } from '../../services/movieServices';
 import { getAllMovie } from '../../redux/slices/movieSlice';
 import { useDispatch } from 'react-redux';
@@ -16,37 +17,36 @@ const FormAddMovie = ({formData}) => {
 
 
   // //Yup
-  // const validationSchema = Yup.object().shape({
-  //   maPhim: Yup.number()
-  //     .typeError('Mã Phim must be a number')
-  //     .positive('Mã Phim must be a positive number')
-  //     .integer('Mã Phim must be an integer')
-  //     .min(10000, 'Mã Phim must be at least 5 digits')
-  //     .max(99999, 'Mã Phim must be at most 5 digits')
-  //     .required('Mã Phim is required'),
-  //   ngayKhoiChieu: Yup.date().min(new Date(), 'Ngày Khởi Chiếu must be today or a future date').required('Ngày Khởi Chiếu is required'),
-  //   dangChieu: Yup.boolean().oneOf([true, false], 'You must select either Đang Chiếu or Sắp Chiếu').required('Đang Chiếu is required'),
-  //   sapChieu: Yup.boolean().oneOf([true, false], 'You must select either Đang Chiếu or Sắp Chiếu').required('Sắp Chiếu is required'),
-  //   danhGia: Yup.number().typeError('Đánh Giá must be a number').min(1, 'Đánh Giá must be at least 1').max(10, 'Đánh Giá must be at most 10').required('Đánh Giá is required'),
-  // });
-
+  const validationSchema = yup.object().shape({
+    maPhim: yup.number()
+      .typeError('Mã Phim must be a number')
+      .positive('Mã Phim must be a positive number')
+      .integer('Mã Phim must be an integer')
+      .min(10000, 'Mã Phim must be at least 5 digits')
+      .max(99999, 'Mã Phim must be at most 5 digits')
+      .required('Mã Phim is required'),
+    ngayKhoiChieu: yup.date().min(new Date(), 'Ngày khởi chiếu phải ở tương lai'),
+    danhGia: yup.number().typeError('Đánh Giá must be a number').min(1, 'Đánh Giá must be at least 1').max(10, 'Đánh Giá must be at most 10').required('Đánh Giá is required'),
+    hinhAnh: yup.mixed().required('Please select a picture').test(
+      'fileFormat',
+      'Invalid file format',
+      value => value && value.type.startsWith('image/'))
+  });
 
   //Formik
   const formik = useFormik({
     initialValues: {
 
-      maPhim: "",
-      tenPhim: "",
-      moTa: "",
-      ngayKhoiChieu: "",
-      maNhom: "",
-      dangChieu: "",
-      sapChieu: "",
-      hot: "",
-      danhGia: "",
-      hinhAnh: "",
-
-      
+    maPhim: formData.maPhim || "",
+    tenPhim: formData.tenPhim || "",
+    moTa: formData.moTa || "",
+    ngayKhoiChieu: formData.ngayKhoiChieu || "",
+    maNhom: formData.maNhom || "",
+    dangChieu: formData.dangChieu || "",
+    sapChieu: formData.sapChieu || "",
+    hot: formData.hot || "",
+    danhGia: formData.danhGia || "",
+    hinhAnh: formData.hinhAnh || "",
     },
     onSubmit: async (values) => {
       console.log(values);
@@ -56,37 +56,46 @@ const FormAddMovie = ({formData}) => {
         dispatch(getAllMovie());
         formik.resetForm();}
         catch (error) {
+          messageApi.error(
+            error.response.data.content
+              ? error.response.data.content
+              : "Không hợp lệ"
+          );
           formik.resetForm();
         }
-      
-
-      //   messageApi.success("Thêm Phim Thành Công");
-      //   dispatch(getAllMovie());
-      //   formik.resetForm();
-      // } catch (error) {
-      //   messageApi.error(error.response.data.content);
-      //   formik.resetForm();
-      // }
     },
-    // validationSchema: validationSchema,
+    validationSchema: addMovieSchema,
   });
+
+  const capNhat = async () => {
+    const values = formik.values;
+    try {
+      const res = await movieServ.updateMovie(values);
+      messageApi.success("Cập nhật Phim Thành Công");
+      dispatch(getAllMovie());
+      formik.resetForm();
+    } catch (error) {
+      formik.resetForm();
+    }
+  };
 
 const{handleSubmit, handleChange, values} =formik
 
-  return (
-    <form action="#" onSubmit={handleSubmit}>
+  return <>
+    {contextHolder}
+    <form onSubmit={handleSubmit}>
       <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
         <div className="w-full">
-          <label htmlFor="maPhim" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mã Phim</label>
+          <label htmlFor="maPhim" className="block mb-2 text-sm font-medium text-gray-900 ">Mã Phim</label>
           <input value={values.maPhim}
               onChange={handleChange}
               type="text"
               name="maPhim"
               placeholder="Xin Nhập Mã Phim"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"/>
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"/>
         </div>
         <div className="w-full">
-          <label htmlFor="tenPhim" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tên Phim</label>
+          <label htmlFor="tenPhim" className="block mb-2 text-sm font-medium text-gray-900">Tên Phim</label>
           <input 
           value={values.tenPhim}
           onChange={handleChange}
@@ -94,10 +103,10 @@ const{handleSubmit, handleChange, values} =formik
           name="tenPhim"
           id="tenPhim"
           placeholder="Xin Nhập Tên Phim"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" />
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5" />
         </div>
         <div className="sm:col-span-2">
-  <label htmlFor="ngayKhoiChieu" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+  <label htmlFor="ngayKhoiChieu" className="block mb-2 text-sm font-medium text-gray-900">
     Ngày Khởi Chiếu
   </label>
   <input
@@ -107,17 +116,17 @@ const{handleSubmit, handleChange, values} =formik
     name="ngayKhoiChieu"
     id="ngayKhoiChieu"
     placeholder="Xin Nhập Ngày Khởi Chiếu"
-    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
   />
 </div>
 <div className="sm:col-span-2">
-  <label htmlFor="maNhom" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mã Nhóm</label>
+  <label htmlFor="maNhom" className="block mb-2 text-sm font-medium text-gray-900 ">Mã Nhóm</label>
   <select
     value={values.maNhom}
     onChange={handleChange}
     name="maNhom"
     id="maNhom"
-    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
   >
     <option value="GP01">GP01</option>
     <option value="GP02">GP02</option>
@@ -132,7 +141,7 @@ const{handleSubmit, handleChange, values} =formik
   </select>
 </div>
 <div className="w-full flex items-center">
-  <label htmlFor="dangChieu" className="me-2 flex items-center mb-2 text-sm font-medium text-gray-900 dark:text-white">
+  <label htmlFor="dangChieu" className="me-2 flex items-center mb-2 text-sm font-medium text-gray-900">
     Đang Chiếu
   </label>
   <input
@@ -144,11 +153,11 @@ const{handleSubmit, handleChange, values} =formik
     type="checkbox"
     name="dangChieu"
     id="dangChieu"
-    className="form-checkbox h-5 w-5 text-primary-600 dark:text-primary-400"
+    className="form-checkbox h-5 w-5 text-primary-600 "
   />
 
 
-  <label htmlFor="sapChieu" className="me-2 ms-5 flex items-center mb-2 text-sm font-medium text-gray-900 dark:text-white">
+  <label htmlFor="sapChieu" className="me-2 ms-5 flex items-center mb-2 text-sm font-medium text-gray-900">
     Sắp Chiếu
   </label>
   <input
@@ -160,11 +169,11 @@ const{handleSubmit, handleChange, values} =formik
     type="checkbox"
     name="sapChieu"
     id="sapChieu"
-    className="form-checkbox h-5 w-5 text-primary-600 dark:text-primary-400"
+    className="form-checkbox h-5 w-5 text-primary-600 "
   />
 
 
-  <label htmlFor="hot" className="me-2 flex items-center mb-2 text-sm font-medium text-gray-900 dark:text-white ms-5">
+  <label htmlFor="hot" className="me-2 flex items-center mb-2 text-sm font-medium text-gray-900">
     Hot
   </label>
   <input
@@ -176,12 +185,12 @@ const{handleSubmit, handleChange, values} =formik
     type="checkbox"
     name="hot"
     id="hot"
-    className="form-checkbox h-5 w-5 text-primary-600 dark:text-primary-400"
+    className="form-checkbox h-5 w-5 text-primary-600 "
   />
 </div>
 
 <div className="w-full">
-  <label htmlFor="hinhAnh" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+  <label htmlFor="hinhAnh" className="block mb-2 text-sm font-medium text-gray-900 ">
     Hình ảnh
   </label>
   <div className="relative">
@@ -198,20 +207,20 @@ const{handleSubmit, handleChange, values} =formik
 </div>
 
 <div className="sm:col-span-2">
-          <label htmlFor="danhGia" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Đánh Giá (1-10)</label>
+          <label htmlFor="danhGia" className="block mb-2 text-sm font-medium text-gray-900">Đánh Giá (1-10)</label>
           <input 
           value={values.danhGia}
           onChange={handleChange}
           type="number" name="danhGia" id="danhGia" 
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"/>
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"/>
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor="moTa" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mô Tả</label>
+          <label htmlFor="moTa" className="block mb-2 text-sm font-medium text-gray-900 ">Mô Tả</label>
           <textarea 
           value={values.moTa}
           onChange={handleChange}
-          id="moTa" rows={5} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Mô tả nội dung phim" defaultValue={""} />
+          id="moTa" rows={5} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5" placeholder="Mô tả nội dung phim" defaultValue={""} />
         </div>
         
       </div>
@@ -219,12 +228,12 @@ const{handleSubmit, handleChange, values} =formik
         Add Movie
       </button>
 
-      <button type="submit" className="ms-2 bg-orange-600 px-5 py-2 text-white rounded-lg mt-4 mb-5 hover:bg-orange-800">
+      <button onClick={capNhat} type="submit" className="ms-2 bg-orange-600 px-5 py-2 text-white rounded-lg mt-4 mb-5 hover:bg-orange-800">
 
         Cập Nhật
       </button>
-    </form>
-  )
+    </form></>
+  
 }
 
 export default FormAddMovie
