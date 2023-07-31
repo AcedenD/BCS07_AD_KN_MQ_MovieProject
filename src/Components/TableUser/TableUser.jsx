@@ -59,23 +59,25 @@ const TableUser = (props) => {
       render: (_, record) => (
         <Space size="middle">
           <button
-            className="py-2 px-5 bg-red-600 text-white rounded-lg hover:bg-red-700 duration-500"
-            // create a Popconfirm to ensure user dont accidentally delete user
-            onClick={() => {
-              nguoiDungServ
-                .deleteUser(record.taiKhoan)
-                .then((res) => {
-                  alert("delete successful");
-                  dispatch(getAllUser());
-                })
-                .catch((err) => {
-                  console.log(err);
-                  alert("There is a problem deleting");
-                });
-            }}
-          >
-            Xoá
-          </button>
+  className="py-2 px-5 bg-red-600 text-white rounded-lg hover:bg-red-700 duration-500"
+  onClick={() => {
+    const userConfirmed = window.confirm("Admin muốn xóa thật à?");
+    if (userConfirmed) {
+      nguoiDungServ
+        .deleteUser(record.taiKhoan)
+        .then((res) => {
+          alert("Delete successful");
+          dispatch(getAllUser());
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("There is a problem deleting");
+        });
+    }
+  }}
+>
+  Xoá
+</button>
 
           <button
             className="py-2 px-5 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 duration-500"
