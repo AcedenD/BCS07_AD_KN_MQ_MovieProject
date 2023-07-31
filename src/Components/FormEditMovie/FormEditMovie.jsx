@@ -62,8 +62,12 @@ function FormEditMovie() {
 
       let formData = new FormData();
       for(let key in values) {
-        formData.append (key, values[key]);
-       }
+        if (key !== 'hinhAnh') {
+          formData.append(key, values[key]);
+      } else {
+          formData.append('hinhAnh', formik.values.hinhAnh, formik.values.hinhAnh.name);
+      }
+      }
       console.log('formData', formData.get('key'));
 
 
@@ -86,7 +90,8 @@ function FormEditMovie() {
   const handleChangeFile =(e) =>{
     let file  = e.target.files[0];
     console.log ('file',file);
-   return (file) =>{formik.setFieldValue('hinhAnh',file)}
+  //  return (file) =>{formik.setFieldValue('hinhAnh',file)}
+  formik.setFieldValue('hinhAnh',file)
   }
 const{handleSubmit, handleChange, values} =formik
   return (

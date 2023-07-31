@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { Form, Input, DatePicker, Switch, Upload, Button, Col, Row, Space, message  } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
 import { addMovieSchema } from "../../utils/addMovieSchema";
 // import * as yup from "yup";
 import { Formik, useFormik } from 'formik';
@@ -9,14 +8,11 @@ import { getAllMovie } from '../../redux/slices/movieSlice';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 
-
 const FormAddMovie = ({formData}) => {
-  const [messageApi, contextHolder] = message.useMessage();
-  const dispatch = useDispatch();
-const handleChangeDatePicker =(value) =>{
-  let ngayKhoiChieu = moment(value).format('DD/MM/YYYY');
-formik.setFieldValue('ngayKhoiChieu',ngayKhoiChieu)
-}
+
+const [messageApi, contextHolder] = message.useMessage();
+const dispatch = useDispatch();
+
 
   // //Yup
   // const validationSchema = yup.object().shape({
@@ -41,15 +37,15 @@ formik.setFieldValue('ngayKhoiChieu',ngayKhoiChieu)
   const formik = useFormik({
     initialValues: {
 
-    maPhim: formData.maPhim || "",
-    tenPhim: formData.tenPhim || "",
-    moTa: formData.moTa || "",
-    ngayKhoiChieu: formData.ngayKhoiChieu || "",
+    maPhim: "",
+    tenPhim: "",
+    moTa: "",
+    ngayKhoiChieu: "",
     maNhom: "GP03",
-    dangChieu: formData.dangChieu || false,
-    sapChieu: formData.sapChieu || false,
-    hot: formData.hot || false,
-    danhGia: formData.danhGia || 0,
+    dangChieu: false,
+    sapChieu: false,
+    hot: false,
+    danhGia: 0,
     hinhAnh:{}
     },
     onSubmit: async (values) => {
@@ -57,16 +53,18 @@ formik.setFieldValue('ngayKhoiChieu',ngayKhoiChieu)
 
       let formData = new FormData();
       for(let key in values) {
-        if (key!== 'hinhAnh'){
-          formData.append (key, values[key]);
-      } else{
-        formData.append('file', values.hinhAnh, values.hinhAnh.name);
-      }}
+        if (key !== 'hinhAnh') {
+          formData.append(key, values[key]);
+      } else {
+          formData.append('hinhAnh', formik.values.hinhAnh, formik.values.hinhAnh.name);
+      }
+      }
+
       console.log('formData', formData.get('File'));
 
 
       try{
-        const res = await movieServ.addMovie(values);
+        const res = await movieServ.addMovie(formData);
         messageApi.success("Thêm Phim Thành Công");
         dispatch(getAllMovie());
         formik.resetForm();}
@@ -82,21 +80,15 @@ formik.setFieldValue('ngayKhoiChieu',ngayKhoiChieu)
     // validationSchema: addMovieSchema,
   });
 
-  const capNhat = async () => {
-    const values = formik.values;
-    try {
-      const res = await movieServ.updateMovie(values);
-      messageApi.success("Cập nhật Phim Thành Công");
-      dispatch(getAllMovie());
-      formik.resetForm();
-    } catch (error) {
-      formik.resetForm();
+  const handleChangeDatePicker =(value) =>{
+    let ngayKhoiChieu = moment(value).format('DD/MM/YYYY');
+    formik.setFieldValue('ngayKhoiChieu',ngayKhoiChieu)
     }
-  };
   const handleChangeFile =(e) =>{
     let file  = e.target.files[0];
     console.log ('file',file);
-   return (file) =>{formik.setFieldValue('hinhAnh',file)}
+  //  return (file) =>{formik.setFieldValue('hinhAnh',file)}
+  formik.setFieldValue('hinhAnh',file)
   }
 const{handleSubmit, handleChange, values} =formik
 
@@ -214,11 +206,6 @@ const{handleSubmit, handleChange, values} =formik
       </div>
       <button type="submit" className="bg-green-600 px-5 py-2 text-white rounded-lg mt-4 mb-5 hover:bg-green-800">
         Add Movie
-      </button>
-
-      <button onClick={capNhat} type="submit" className="ms-2 bg-orange-600 px-5 py-2 text-white rounded-lg mt-4 mb-5 hover:bg-orange-800">
-
-        Cập Nhật
       </button>
     </form></>
   
