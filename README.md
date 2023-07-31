@@ -1,5 +1,9 @@
 Note about movie project
 
+Test account:
+Tài khoản: AA123
+Mật khẩu: Aa123$
+
 Folders to create:
 
 - Components
