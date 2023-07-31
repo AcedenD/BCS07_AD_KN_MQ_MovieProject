@@ -65,7 +65,7 @@ const FormAddUser = (props) => {
       // nguoiDungServ.addUser(values);
       const res = await nguoiDungServ.addUser(values);
       console.log(res);
-      messageApi.success("them nguoi dung thanh cong");
+      messageApi.success("Thêm người dùng thành công");
       dispatch(getAllUser());
       formik.resetForm();
     } catch (error) {
@@ -83,7 +83,7 @@ const FormAddUser = (props) => {
       // nguoiDungServ.addUser(values);
       const res = await nguoiDungServ.updateUser(values);
       console.log(res);
-      messageApi.success("cap nhat nguoi dung thanh cong");
+      messageApi.success("Cập nhật người dùng thành công");
       dispatch(getAllUser());
       formik.resetForm();
     } catch (error) {
@@ -334,7 +334,7 @@ const FormAddUser = (props) => {
           Thêm người dùng
         </button>
         <button
-          type="botton"
+          type="button"
           class="text-black bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           disabled={!props.visible}
           style={{
