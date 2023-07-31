@@ -27,7 +27,7 @@ const FormLogin = () => {
         .then((res) => {
           console.log(res);
           // if login sucess, save data to local
-          messageApi.success("dang nhap thanh cong");
+          messageApi.success("Login success");
           // khi lay du lieu thanh cong, gui len redux
           dispatch(setDuLieuHoTen(res.data.content));
           luuXuongLocal("user", res.data.content);
@@ -45,7 +45,7 @@ const FormLogin = () => {
       matKhau: yup
         .string()
         .required("Please enter in password")
-        .min(3, "enter in more than 3 "),
+        .min(6, "enter in more than 6 "),
     }),
   });
 
@@ -59,7 +59,7 @@ const FormLogin = () => {
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 "
           >
-            Tai khoan
+            Tài khoản
           </label>
           <input
             onChange={handleChange}
@@ -91,7 +91,7 @@ const FormLogin = () => {
             htmlFor="password"
             className="block mb-2 text-sm font-medium text-gray-900 "
           >
-            Mat khau
+            Mật khẩu
           </label>
           <input
             onChange={handleChange}
@@ -111,7 +111,7 @@ const FormLogin = () => {
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Dang nhap
+          Đăng nhập
         </button>
       </form>
     </div>

@@ -39,7 +39,13 @@ const FormBooking = (props) => {
       props.setSelectedSeat([]);
       props.setIsRefetch(true);
     } catch (error) {
-      messageApi.error("Oops! Có lỗi xảy ra kìa huhu >.<!");
+      dispatch(set_loading_ended());
+      messageApi.error(
+        "Oops! Có lỗi xảy ra kìa huhu >.<!, Please login first!"
+      );
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 1800);
     }
   };
   console.log(tinhTongTien());

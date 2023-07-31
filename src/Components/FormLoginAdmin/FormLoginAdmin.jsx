@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import React from "react";
-import * as Yup from "yup";
+import * as yup from "yup";
 import { nguoiDungServ } from "../../services/nguoiDungServices";
 import { luuXuongLocal } from "../../utils/localStore";
 import { useNavigate } from "react-router-dom";
@@ -21,9 +21,12 @@ const FormLoginAdmin = () => {
           // check user role, maLoaiNguoiDung
           if (res.data.content.maLoaiNguoiDung == "QuanTri") {
             luuXuongLocal("user", res.data.content);
-            navigate("/admin");
+            setTimeout(() => {
+              navigate("/admin");
+            }, 1000);
           } else {
-            window.location.href = "http://localhost:3000";
+            alert("You are not admin");
+            window.location.href = "/";
           }
         })
         .catch((err) => {
@@ -35,9 +38,12 @@ const FormLoginAdmin = () => {
         });
     },
 
-    validationSchema: Yup.object({
-      taiKhoan: Yup.string().required("Can't leave blank"),
-      matKhau: Yup.string().required("Please enter password"),
+    validationSchema: yup.object({
+      taiKhoan: yup.string().required("Please enter tài khoản"),
+      matKhau: yup
+        .string()
+        .required("Please enter in password")
+        .min(6, "enter in more than 6 "),
     }),
   });
   return (
@@ -76,7 +82,7 @@ const FormLoginAdmin = () => {
             Mật khẩu
           </label>
           <input
-            type="text"
+            type="password"
             id="matKhau"
             onChange={formik.handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
