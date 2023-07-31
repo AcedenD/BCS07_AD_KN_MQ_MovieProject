@@ -3,6 +3,12 @@ import Seats from "../Seats/Seats";
 import FormBooking from "../FormBooking/FormBooking";
 import { movieServ } from "../../services/movieServices";
 import { useParams } from "react-router-dom";
+import {
+  set_loading_ended,
+  set_loading_started,
+} from "../../redux/slices/loadingSlice";
+import { useDispatch } from "react-redux";
+import "./BookingTicket.css";
 
 const BookingTicket = () => {
   const { maLichChieu } = useParams();
@@ -11,7 +17,9 @@ const BookingTicket = () => {
   const [selectedSeat, setSelectedSeat] = useState([]);
   const [isRefetch, setIsRefetch] = useState(false);
 
+  const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(set_loading_started());
     console.log("isRefetch: ", isRefetch);
     movieServ
       .getBookingList(maLichChieu)
@@ -19,11 +27,15 @@ const BookingTicket = () => {
         setSeatList(res.data.content.danhSachGhe);
         setMovieInfo(res.data.content.thongTinPhim);
         setIsRefetch(false);
+        setTimeout(() => {
+          dispatch(set_loading_ended());
+        }, 1200);
       })
       .catch((err) => {
         console.log(err);
+        dispatch(set_loading_ended());
       });
-  }, [maLichChieu, isRefetch]);
+  }, [maLichChieu, isRefetch, dispatch]);
 
   const handleClickSelectSeat = (maGhe) => {
     const seatItem = seatList.find((item) => item.maGhe === maGhe);
