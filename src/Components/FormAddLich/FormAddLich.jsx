@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { rapServ } from "./../../services/rapServices";
 import { movieServ } from "../../services/movieServices";
 import moment from "moment";
+import { Input, message } from "antd";
 
 const FormAddLich = () => {
   //tittle & Pic
@@ -10,6 +11,7 @@ const FormAddLich = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const maPhim = searchParams.get("movieId");
+  const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
     console.log(maPhim);
@@ -164,18 +166,22 @@ const FormAddLich = () => {
       console.log(formData);
       const response = await movieServ.addLichChieu(formData);
       console.log(response);
-      alert("Thêm lịch chiếu thành công");
-      window.location.href = "/admin/movie";
+      // alert("Thêm lịch chiếu thành công");
+      messageApi.success("Thêm lịch chiếu thành công");
+      setTimeout(() => {
+        window.location.href = "/admin/movie";
+      }, 700);
     } catch (error) {
       console.log(error);
+      messageApi.error(error.response.data.content);
     }
   };
 
-
   return (
     <div>
+      {contextHolder}
       <div className="flex flex-col items-center space-y-4 mb-5">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+        <h1 className="text-2xl font-bold text-gray-900 ">
           {moviePhim.tenPhim}
         </h1>
         <img
@@ -192,7 +198,7 @@ const FormAddLich = () => {
           <div className="w-full">
             <label
               htmlFor="heThongRap"
-              className="me-3 block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="me-3 block mb-2 text-sm font-medium text-gray-900 "
             >
               Hệ Thống Rạp
             </label>
@@ -202,18 +208,17 @@ const FormAddLich = () => {
           <div className="w-full">
             <label
               htmlFor="cumRap"
-              className="me-3 block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="me-3 block mb-2 text-sm font-medium text-gray-900 "
             >
               Cụm Rạp
             </label>
             <select onChange={handleCumRapChange}>{renderCumRap()}</select>
           </div>
 
-
           {/* <div className="w-full">
             <label
               htmlFor="tenRap"
-              className="me-3 block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="me-3 block mb-2 text-sm font-medium text-gray-900 "
             >
               Rạp Chiếu
             </label>
@@ -223,7 +228,7 @@ const FormAddLich = () => {
           <div className="w-full">
             <label
               htmlFor="ngayChieuGioChieu"
-              className="me-3 block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="me-3 block mb-2 text-sm font-medium text-gray-900 "
             >
               Ngày Chiếu, Giờ Chiếu
             </label>
@@ -234,11 +239,10 @@ const FormAddLich = () => {
             />
           </div>
 
-
           <div className="w-full">
             <label
               htmlFor="giaVe"
-              className="me-3 block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="me-3 block mb-2 text-sm font-medium text-gray-900 "
             >
               Giá Vé
             </label>
@@ -247,8 +251,9 @@ const FormAddLich = () => {
               onChange={handleGiaVeChange}
               type="number"
               id="giaVe"
-              min="0"
-              step="0.01"
+              min="75000"
+              max="200000"
+              step="10000"
             />
           </div>
           <button
