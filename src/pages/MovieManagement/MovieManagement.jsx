@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllMovie } from '../../redux/slices/movieSlice';
@@ -11,6 +12,7 @@ const MovieManagement = () => {
   const [formKey, setFormKey] = useState(0);
 
 
+
   const dispatch = useDispatch();
   //edit
   const [formData, setFormData] = useState({});
@@ -21,7 +23,7 @@ const MovieManagement = () => {
   };
 
   useEffect(() => {
-    dispatch(getAllMovie())
+    dispatch(getAllMovie());
   }, [dispatch]);
 
   //SearchBar
@@ -32,7 +34,9 @@ const MovieManagement = () => {
   };
 
   //Drawers
+
   const [drawerVisible, setDrawerVisible] = useState(false);
+
   const [open, setOpen] = useState(false);
   const formRef = useRef();
 
@@ -47,6 +51,7 @@ const MovieManagement = () => {
     setFormData({});
     setFormKey(prevKey => prevKey + 1);
   };
+
 
   return (<div >
     <button

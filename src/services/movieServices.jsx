@@ -23,8 +23,10 @@ export const movieServ = {
   addMovie: (formData) => {
     return https.post("api/QuanLyPhim/ThemPhimUploadHinh", formData);
   },
+
     updateMovie: (formData) => {
     return https.post("api/QuanLyPhim/CapNhatPhimUpload", formData);
+
 
   },
   addLichChieu: (data) => {
@@ -38,5 +40,9 @@ export const movieServ = {
   },
   postBookedTicket: (data) => {
     return https.post("/api/QuanLyDatVe/DatVe", data);
+  },
+
+  addLichChieu: (data) => {
+    return https.post("api/QuanLyDatVe/TaoLichChieu", data);
   },
 };

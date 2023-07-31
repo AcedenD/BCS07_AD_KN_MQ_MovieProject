@@ -3,22 +3,34 @@ import { movieServ } from "../../services/movieServices";
 import TabMovieDetail from "./TabMovieDetail/TabMovieDetail";
 import { Button, Modal } from "antd";
 import { NavLink } from "react-router-dom";
+import "./MovieDetail.css";
+import {
+  set_loading_ended,
+  set_loading_started,
+} from "../../redux/slices/loadingSlice";
+import { useDispatch } from "react-redux";
 
 const MovieDetail = (props) => {
   const [movieDetail, setMovieDetail] = useState({});
   const [showtime, setShowtime] = useState([]);
   const [maLichChieu, setMaLichChieu] = useState("");
-  console.log("maLichChieu:", maLichChieu);
-  console.log("movieDetail: ", movieDetail);
+  const dispatch = useDispatch();
+  // console.log("maLichChieu:", maLichChieu);
+  // console.log("movieDetail: ", movieDetail);
   useEffect(() => {
+    dispatch(set_loading_started());
     movieServ
       .getMovieDetail(props.maPhim)
       .then((res) => {
         console.log(res);
         setMovieDetail(res.data.content);
+        setTimeout(() => {
+          dispatch(set_loading_ended());
+        }, 1200);
       })
       .catch((err) => {
         console.log(err);
+        dispatch(set_loading_ended());
       });
   }, [props.maPhim]);
   useEffect(() => {
@@ -46,23 +58,19 @@ const MovieDetail = (props) => {
   return (
     <div className="container">
       <div className="bg-white">
-        <div className="pt-6 flex">
+        <div className="pt-6 flex m-auto">
           {/* Image gallery */}
-          <div
-            className="w-4/12 mt-6 max-w-2xl sm:px-6 lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8"
-            // width="250 mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8"
-            // height=" w-4/12 mx-auto mt-6 sm:px-6 lg:max-w-7xl lg:gap-x-8 lg:px-8"
-          >
-            <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
+          <div className="w-5/12 mt-6 max-w-2xl sm:px-6 lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+            <div className="movie_image aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
               <img
                 src={movieDetail.hinhAnh}
-                alt="Two each of gray, white, and black shirts laying flat."
+                alt=""
                 className="h-full w-full object-cover object-center"
               />
             </div>
           </div>
           {/* Film info */}
-          <div className="w-8/12 mx-auto m ax-w-2xl px-4 pb-5 pt-2 sm:px-6 lg:max-w-7xl lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-10">
+          <div className="w-7/12 mx-auto ax-w-2xl px-4 pb-5 pt-2 sm:px-6 lg:max-w-7xl lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-10">
             <div className="lg:col-span-2 lg:pr-8">
               <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
                 {movieDetail.tenPhim}
@@ -78,10 +86,15 @@ const MovieDetail = (props) => {
                 <h3 className="mt-5 text-sm font-bold text-gray-900">
                   Thời lượng:
                   <span className="font-normal ml-3">
-                    {showtime[0]
-                      ? showtime[0].cumRapChieu[0].lichChieuPhim[0]
-                          .thoiLuong && <span className="ml-2">phút</span>
-                      : "Chưa rõ"}
+                    {showtime[0] &&
+                    showtime[0].cumRapChieu[0].lichChieuPhim[0].thoiLuong ? (
+                      <div className="ml-2 inline-block">
+                        {showtime[0].cumRapChieu[0].lichChieuPhim[0].thoiLuong}
+                        <span className="ml-2">phút</span>
+                      </div>
+                    ) : (
+                      "Chưa rõ"
+                    )}
                   </span>
                 </h3>
                 <h3 className="mt-5 text-sm font-bold text-gray-900">

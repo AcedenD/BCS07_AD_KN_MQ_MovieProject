@@ -1,18 +1,15 @@
 import React from "react";
 import { Tabs } from "antd";
 import TabItem from "./TabItem";
+import "./Tab.css";
 
 const TabMovieDetail = (props) => {
   const renderShowtime = () => {
     return props.showtime.map((item, index) => ({
       label: (
-        <div className="flex">
-          <img
-            src={item.logo}
-            className="h-10 w-4/12 items-center justify-center"
-            alt=""
-          />
-          <h3 className="w-8/12">{item.tenHeThongRap}</h3>
+        <div className="flex items-center justify-center gap-3">
+          <img src={item.logo} className="logo h-10 w-5/12" alt="" />
+          <h3 className="w-7/12">{item.tenHeThongRap}</h3>
         </div>
       ),
       key: index,

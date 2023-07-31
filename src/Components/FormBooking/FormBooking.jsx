@@ -2,8 +2,14 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { movieServ } from "../../services/movieServices";
 import { message } from "antd";
+import {
+  set_loading_ended,
+  set_loading_started,
+} from "../../redux/slices/loadingSlice";
+import { useDispatch } from "react-redux";
 
 const FormBooking = (props) => {
+  const dispatch = useDispatch();
   const { maLichChieu } = useParams();
   const [messageApi, contextHolder] = message.useMessage();
   const tinhTongTien = () => {
@@ -24,9 +30,12 @@ const FormBooking = (props) => {
     };
 
     try {
+      dispatch(set_loading_started());
       const res = await movieServ.postBookedTicket(request);
-
-      messageApi.success("Đặt vé thành công!");
+      dispatch(set_loading_ended());
+      setTimeout(() => {
+        messageApi.success("Đặt vé thành công!");
+      }, 1200);
       props.setSelectedSeat([]);
       props.setIsRefetch(true);
     } catch (error) {
