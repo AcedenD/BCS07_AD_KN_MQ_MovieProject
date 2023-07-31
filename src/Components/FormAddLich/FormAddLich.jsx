@@ -160,6 +160,7 @@ const FormAddLich = () => {
         maRap: selectedCumRap,
         giaVe: giaVe,
       };
+
       console.log(formData);
       const response = await movieServ.addLichChieu(formData);
       console.log(response);
@@ -169,6 +170,7 @@ const FormAddLich = () => {
       console.log(error);
     }
   };
+
 
   return (
     <div>
@@ -207,6 +209,7 @@ const FormAddLich = () => {
             <select onChange={handleCumRapChange}>{renderCumRap()}</select>
           </div>
 
+
           {/* <div className="w-full">
             <label
               htmlFor="tenRap"
@@ -230,6 +233,7 @@ const FormAddLich = () => {
               onChange={handleNgayChieuGioChieuChange}
             />
           </div>
+
 
           <div className="w-full">
             <label

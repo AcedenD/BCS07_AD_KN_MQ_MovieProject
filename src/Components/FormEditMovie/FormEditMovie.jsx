@@ -1,71 +1,75 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form, Input, DatePicker, Switch, Upload, Button, Col, Row, Space, message  } from 'antd';
+import { InboxOutlined } from '@ant-design/icons';
 import { addMovieSchema } from "../../utils/addMovieSchema";
-// import * as yup from "yup";
 import { Formik, useFormik } from 'formik';
 import { movieServ } from '../../services/movieServices';
 import { getAllMovie } from '../../redux/slices/movieSlice';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
+import { useLocation } from 'react-router-dom';
 
-const FormAddMovie = ({formData}) => {
+function FormEditMovie() {
+    const [moviePhim, setMoviePhim] = useState([]);
+    const location = useLocation();
+          const searchParams = new URLSearchParams(location.search);
+          const maPhim = searchParams.get('movieId');
 
-const [messageApi, contextHolder] = message.useMessage();
-const dispatch = useDispatch();
+          useEffect(() => {
+            movieServ.getMovieDetail(maPhim)
+              .then((res) => {
+                console.log(res);
+                setMoviePhim(res.data.content);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }, [maPhim]);
+        
+        //   useEffect(() => {
+        //     // Set the form values after fetching the movie data
+        //     formik.setValues({
+        //       maPhim: moviePhim.maPhim || "",
+        //       tenPhim: moviePhim.tenPhim || "",
+        //       moTa: moviePhim.moTa || "",
+        //       ngayKhoiChieu: moviePhim.ngayKhoiChieu || "",
+        //       maNhom: "GP03",
+        //       dangChieu: moviePhim.dangChieu || false,
+        //       sapChieu: moviePhim.sapChieu || false,
+        //       hot: moviePhim.hot || false,
+        //       danhGia: moviePhim.danhGia || 0,
+        //     });
+        //   }, [moviePhim]);
 
-
-  // //Yup
-  // const validationSchema = yup.object().shape({
-  //   maPhim: yup.number()
-  //     .typeError('Mã Phim must be a number')
-  //     .positive('Mã Phim must be a positive number')
-  //     .integer('Mã Phim must be an integer')
-  //     .min(10000, 'Mã Phim must be at least 5 digits')
-  //     .max(99999, 'Mã Phim must be at most 5 digits')
-  //     .required('Mã Phim is required'),
-  //   ngayKhoiChieu: yup.date().min(new Date(), 'Ngày khởi chiếu phải ở tương lai'),
-  //   danhGia: yup.number().typeError('Đánh Giá must be a number').min(1, 'Đánh Giá must be at least 1').max(10, 'Đánh Giá must be at most 10').required('Đánh Giá is required'),
-  //   hinhAnh: yup.mixed().required('Please select a picture').test(
-  //     'fileFormat',
-  //     'Invalid file format',
-  //     value => value && value.type.startsWith('image/'))
-  // });
-
-  //Formik
- 
-      
+    const [messageApi, contextHolder] = message.useMessage();
+  const dispatch = useDispatch();
+  
   const formik = useFormik({
+    enableReinitialize:true,
     initialValues: {
 
-    maPhim: "",
-    tenPhim: "",
-    moTa: "",
-    ngayKhoiChieu: "",
-    maNhom: "GP03",
-    dangChieu: false,
-    sapChieu: false,
-    hot: false,
-    danhGia: 0,
-    hinhAnh:{}
+        maPhim: moviePhim.maPhim ,
+        tenPhim: moviePhim.tenPhim ,
+        moTa: moviePhim.moTa ,
+        maNhom: "GP03",
+        dangChieu: moviePhim.dangChieu,
+        sapChieu: moviePhim.sapChieu,
+        hot: moviePhim.hot,
+        danhGia: moviePhim.danhGia ,
     },
     onSubmit: async (values) => {
       console.log(values)
 
       let formData = new FormData();
       for(let key in values) {
-        if (key !== 'hinhAnh') {
-          formData.append(key, values[key]);
-      } else {
-          formData.append('hinhAnh', formik.values.hinhAnh, formik.values.hinhAnh.name);
-      }
-      }
-
-      console.log('formData', formData.get('File'));
+        formData.append (key, values[key]);
+       }
+      console.log('formData', formData.get('key'));
 
 
       try{
-        const res = await movieServ.addMovie(formData);
-        messageApi.success("Thêm Phim Thành Công");
+        const res = await movieServ.updateMovie(formData);
+        messageApi.success("Cập Nhập Thành Công");
         dispatch(getAllMovie());
         formik.resetForm();}
         catch (error) {
@@ -79,26 +83,20 @@ const dispatch = useDispatch();
     },
     // validationSchema: addMovieSchema,
   });
-
-  const handleChangeDatePicker =(value) =>{
-    let ngayKhoiChieu = moment(value).format('DD/MM/YYYY');
-    formik.setFieldValue('ngayKhoiChieu',ngayKhoiChieu)
-    }
   const handleChangeFile =(e) =>{
     let file  = e.target.files[0];
     console.log ('file',file);
-  //  return (file) =>{formik.setFieldValue('hinhAnh',file)}
-  formik.setFieldValue('hinhAnh',file)
+   return (file) =>{formik.setFieldValue('hinhAnh',file)}
   }
 const{handleSubmit, handleChange, values} =formik
-
-  return <>
+  return (
+    <>
     {contextHolder}
     <form onSubmit={handleSubmit}>
       <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
         <div className="w-full">
           <label htmlFor="maPhim" className="block mb-2 text-sm font-medium text-gray-900 ">Mã Phim</label>
-          <input value={values.maPhim}
+          <input value={formik.values.maPhim}
               onChange={handleChange}
               type="text"
               name="maPhim"
@@ -108,7 +106,7 @@ const{handleSubmit, handleChange, values} =formik
         <div className="w-full">
           <label htmlFor="tenPhim" className="block mb-2 text-sm font-medium text-gray-900">Tên Phim</label>
           <input 
-          value={values.tenPhim}
+          value={formik.values.tenPhim}
           onChange={handleChange}
           type="text" 
           name="tenPhim"
@@ -117,17 +115,7 @@ const{handleSubmit, handleChange, values} =formik
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5" />
         </div>
         <div className="sm:col-span-2">
-  <label htmlFor="ngayKhoiChieu" className="block mb-2 text-sm font-medium text-gray-900">
-    Ngày Khởi Chiếu
-  </label>
-  <DatePicker
-           // Convert date to moment object for DatePicker
-          format="DD/MM/YYYY" // Set the desired format for display
-          name="ngayKhoiChieu"
-          id="ngayKhoiChieu"
-          placeholder="Xin Nhập Ngày Khởi Chiếu"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-          onChange={handleChangeDatePicker}/>
+ 
 </div>
 
 <div className="w-full flex items-center">
@@ -135,7 +123,7 @@ const{handleSubmit, handleChange, values} =formik
     Đang Chiếu
   </label>
   <Switch
-    checked={values.dangChieu}
+    checked={formik.values.dangChieu}
     onChange={(value)=>{formik.setFieldValue('dangChieu',value)}}
     name="dangChieu"
     id="dangChieu"
@@ -148,7 +136,7 @@ const{handleSubmit, handleChange, values} =formik
   </label>
   <Switch
 
-    checked={values.sapChieu}
+checked={formik.values.sapChieu}
     onChange={(value)=>{formik.setFieldValue('sapChieu',value)}}
     name="sapChieu"
     id="sapChieu"
@@ -160,7 +148,7 @@ const{handleSubmit, handleChange, values} =formik
     Hot
   </label>
   <Switch
-    checked={values.hot}
+    checked={formik.values.hot}
     onChange={(value)=>{formik.setFieldValue('hot',value)}}
     name="hot"
     id="hot"
@@ -168,28 +156,13 @@ const{handleSubmit, handleChange, values} =formik
   />
 </div>
 
-<div className="w-full">
-  <label htmlFor="hinhAnh" className="block mb-2 text-sm font-medium text-gray-900 ">
-    Hình ảnh
-  </label>
-  <div className="relative">
-    <input
-      type="file"
-      accept="image/*"
-      name="hinhAnh"
-      id="hinhAnh"
-      onChange={handleChangeFile}
-    />
-  </div>
-  <img width={20} src="" alt="" />
-</div>
 
 <div className="sm:col-span-2">
           <label htmlFor="danhGia" className="block mb-2 text-sm font-medium text-gray-900">Đánh Giá (0-10)</label>
           <input 
+          value={formik.values.danhGia}
           min={0}
           max={10}
-          value={values.danhGia}
           onChange={handleChange}
           type="number" name="danhGia" id="danhGia" 
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"/>
@@ -198,17 +171,18 @@ const{handleSubmit, handleChange, values} =formik
         <div className="sm:col-span-2">
           <label htmlFor="moTa" className="block mb-2 text-sm font-medium text-gray-900 ">Mô Tả</label>
           <textarea 
-          value={values.moTa}
+          value={formik.values.moTa}
           onChange={handleChange}
           id="moTa" rows={5} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5" placeholder="Mô tả nội dung phim" defaultValue={""} />
         </div>
         
       </div>
       <button type="submit" className="bg-green-600 px-5 py-2 text-white rounded-lg mt-4 mb-5 hover:bg-green-800">
-        Add Movie
+        Cập Nhật
       </button>
+
     </form></>
-  
+  )
 }
 
-export default FormAddMovie
+export default FormEditMovie
